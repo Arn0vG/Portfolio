@@ -1,64 +1,237 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { ProjectCard } from "../components/ProjectCard";
+import { projects } from "../content/project";
+import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
+import { SpotlightMask } from "../components/SpotlightMask";
+
+
+
+
+
+
+type Phase = "typing" | "holding" | "deleting";
+
+function TypeOnceLine({
+  text,
+  startDelayMs = 0,
+  speedMs = 14,
+}: {
+  text: string;
+  startDelayMs?: number;
+  speedMs?: number;
+}) {
+  const [out, setOut] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    let i = 0;
+
+    const startTimer = window.setTimeout(() => {
+      const tick = () => {
+        if (cancelled) return;
+        i += 1;
+        setOut(text.slice(0, i));
+        if (i < text.length) window.setTimeout(tick, speedMs);
+      };
+      tick();
+    }, startDelayMs);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(startTimer);
+    };
+  }, [text, startDelayMs, speedMs]);
+
+  return (
+    <p className="text-base sm:text-lg text-zinc-200 leading-8">
+      {out}
+      {out.length < text.length ? (
+        <span className="ml-1 inline-block h-5 w-[2px] translate-y-[3px] bg-zinc-200/60 animate-pulse" />
+      ) : null}
+    </p>
+  );
+}
+
+function IconMail(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
+      <path
+        d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5v-9Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="m6.5 8 5.2 4.1c.19.15.41.23.65.23.24 0 .46-.08.65-.23L18.5 8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function IconLink(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
+      <path
+        d="M10 13a5 5 0 0 1 0-7l.5-.5a5 5 0 0 1 7 7l-.5.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14 11a5 5 0 0 1 0 7l-.5.5a5 5 0 0 1-7-7l.5-.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
 export default function Home() {
+  const interests = useMemo(
+    () => [
+      "Robotics",
+      "PCB Design",
+      "Embedded Systems",
+      "Programming",
+      "Chess",
+      "Skiing",
+      "Soccer",
+    ],
+    []
+  );
+
+  const [idx, setIdx] = useState(0);
+  const [phase, setPhase] = useState<Phase>("typing");
+  const [text, setText] = useState("");
+
+  useEffect(() => {
+    const full = interests[idx % interests.length];
+    const typingMs = 70;
+    const deletingMs = 45;
+    const holdMs = 1100;
+
+    const timer = window.setTimeout(() => {
+      if (phase === "typing") {
+        const next = full.slice(0, text.length + 1);
+        setText(next);
+        if (next === full) setPhase("holding");
+      } else if (phase === "holding") {
+        setPhase("deleting");
+      } else {
+        const next = full.slice(0, Math.max(0, text.length - 1));
+        setText(next);
+        if (next.length === 0) {
+          setIdx((i) => (i + 1) % interests.length);
+          setPhase("typing");
+        }
+      }
+    }, phase === "typing" ? typingMs : phase === "deleting" ? deletingMs : holdMs);
+
+    return () => window.clearTimeout(timer);
+  }, [idx, phase, text, interests]);
+
+  const skillLines = useMemo(
+    () => [
+      "Programming: Python, Java, C++, C#, MATLAB, React, LaTeX, TypeScript",
+      "Tools: Altium Designer, KiCad, AutoCAD, SolidWorks, LTspice, Git, Node.js, Unity, Microsoft Workspaces",
+      "Hardware: Breadboarding, soldering, PCB design, schematic design",
+    ],
+    []
+  );
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+    <div className="relative min-h-screen bg-black text-zinc-100 overflow-hidden">
+      {/* BACKGROUND STUFF */}
+      <div className="pointer-events-none absolute inset-0">
+          <CleanDiagonalBackground className="absolute inset-0" />
+          <SpotlightMask strength={0.9} radius={100} />
+        {/* Keep your soft aura glows */}
+        <div className="absolute -top-52 -left-52 h-[680px] w-[680px] rounded-full bg-indigo-500/14 blur-[150px]" />
+        <div className="absolute top-1/3 -right-52 h-[620px] w-[620px] rounded-full bg-cyan-500/12 blur-[150px]" />
+      </div>
+
+
+
+      <main className="relative mx-auto max-w-7xl px-8 py-24 scroll-smooth" id="top">
+        {/* HERO */}
+        <header className="space-y-10">
+          <div>
+            <h1 className="text-6xl font-bold tracking-tight sm:text-7xl">
+              Arnav Gupta
+            </h1>
+
+            <p className="mt-5 text-2xl text-zinc-400">
+              Second-Year Mechatronics & Robotics Engineering Co-op Student — University of Alberta
+            </p>
+
+            <p className="mt-6 max-w-4xl text-2xl leading-9 text-zinc-200">
+              Interests:{" "}
+              <span className="font-bold text-white">
+                {text}
+                <span className="ml-1 inline-block h-6 w-[2px] translate-y-[4px] bg-zinc-200/70 animate-pulse" />
+              </span>
+            </p>
+          </div>
+
+          {/* Contact buttons (bigger) */}
+          <div className="flex flex-wrap gap-4 text-base" id="contact">
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="mailto:arnav11@ualberta.ca"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-200 hover:bg-white/10 hover:text-white transition"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
+              <IconMail className="h-5 w-5" />
+              arnav11@ualberta.ca
+            </a>
+
             <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="https://www.linkedin.com/in/arnav-gupta-a2098a350"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-200 hover:bg-white/10 hover:text-white transition"
             >
-              Learning
-            </a>{" "}
-            center.
+              <IconLink className="h-5 w-5" />
+              LinkedIn
+            </a>
+
+            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-300">
+              Edmonton, AB
+            </span>
+          </div>
+        </header>
+
+        {/* SKILLS */}
+        <section className="mt-28 scroll-mt-28" id="skills">
+          <h2 className="text-4xl font-semibold tracking-tight">Skills</h2>
+
+          <div className="mt-8 rounded-3xl border border-white/10 bg-black/40 backdrop-blur-sm p-10 space-y-3">
+            <TypeOnceLine text={skillLines[0]} startDelayMs={200} speedMs={12} />
+            <TypeOnceLine text={skillLines[1]} startDelayMs={650} speedMs={10} />
+            <TypeOnceLine text={skillLines[2]} startDelayMs={1150} speedMs={12} />
+          </div>
+        </section>
+
+        {/* PROJECTS */}
+        <section className="mt-32 scroll-mt-28" id="projects">
+          <h2 className="text-4xl font-semibold tracking-tight">Projects</h2>
+          <p className="mt-4 text-xl text-zinc-400 max-w-4xl">
+            Selected hardware designs — schematic capture, PCB layout, and system-level integration.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+          <div className="mt-10 space-y-10">
+            {projects.map((project) => (
+              <ProjectCard key={project.title} project={project} />
+            ))}
+          </div>
+        </section>
+
+        <footer className="mt-32 border-t border-white/10 pt-10 text-base text-zinc-500">
+          © 2026 Arnav Gupta — built with Next.js + TypeScript
+        </footer>
       </main>
     </div>
   );
