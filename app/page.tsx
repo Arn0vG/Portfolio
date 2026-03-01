@@ -94,10 +94,11 @@ function IconLink(props: { className?: string }) {
 export default function Home() {
   const interests = useMemo(
     () => [
-      "Robotics",
       "PCB Design",
+      "ASIC Design",
       "Embedded Systems",
       "Programming",
+      "3d Modelling",
       "Chess",
       "Skiing",
       "Soccer",
@@ -137,9 +138,10 @@ export default function Home() {
 
   const skillLines = useMemo(
     () => [
-      "Programming: Python, Java, C++, C#, MATLAB, React, LaTeX, TypeScript",
-      "Tools: Altium Designer, KiCad, AutoCAD, SolidWorks, LTspice, Git, Node.js, Unity, Microsoft Workspaces",
-      "Hardware: Breadboarding, soldering, PCB design, schematic design",
+      "Skills: PCB Design, ASIC Design, Embedded Hardware Design, RF Control, PWM, Motor Control, PCB Simulation, High-Speed Signal Routing, Soldering, 3D Modelling",
+      "Developer Tools: Altium Designer, KiCad, AutoCAD, SolidWorks, Fusion 360, LTspice, Git, Node.js, Unity",
+      "Lanuages: C/C++, Python, Java, TypeScript, Matlab  ",
+      "HDLs: Verilog, SystemVerilog, VHDL",
     ],
     []
   );
@@ -189,7 +191,7 @@ export default function Home() {
             </a>
 
             <a
-              href="https://www.linkedin.com/in/arnav-gupta-a2098a350"
+              href="https://www.linkedin.com/in/arnav-gupta121/"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-200 hover:bg-white/10 hover:text-white transition"
