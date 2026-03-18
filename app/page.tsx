@@ -146,6 +146,8 @@ export default function Home() {
     []
   );
 
+
+
   return (
     <div className="relative min-h-screen bg-black text-zinc-100 overflow-hidden">
       {/* BACKGROUND STUFF */}
@@ -198,6 +200,16 @@ export default function Home() {
             >
               <IconLink className="h-5 w-5" />
               LinkedIn
+            </a>
+
+            <a
+              href="/Portfolio___Arnav_Gupta__Updated_March_17st_ (3).pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-200 hover:bg-white/10 hover:text-white transition"
+            >
+              <IconLink className="h-5 w-5" />
+              Full Portfolio PDF
             </a>
 
             <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-300">

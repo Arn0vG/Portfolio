@@ -23,6 +23,38 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+      slug: "ethernet",
+      title: "High Power Battery Managment/Leveling/Monitoring System with Power distribution",
+      subtitle:
+        "High Power (220+ Amps) Battery Management System with integrated power distribution and monitoring, designed for UAARG (University of Alberta Arial Robotics Group).",
+      tags: ["High Power", "LTspice", "Altium", "C++"],
+      highlights: [
+        "Design takes in up to 4 6s LiPo batteries and outputs a 25.2V bus for powering a high-power drone, with integrated battery management features including cell balancing, overcurrent protection, and real-time monitoring.",
+        "Designed around a BQ76952PFBR BMU IC to monitor cells and communicate with the MCU.",
+        "Design uses a busbar for taking power from inputs to main outputs, as it provides a low resistance path for high currents and helps with heat dissipation.",
+        "Communication and configuration with a STM32G474 MCU, and a ILI9341 display for QOL",
+        "Design features a MOSFETS + Controller to act as an ideal diode to allow batteries to provide power to the bus while preventing backflow",
+        "Design features PFETs to precharge ESC capacitors to avoid sparks upon connection.",
+      ],
+      pairs: [
+        {
+          label: "High Power BMU & PD Unit",
+          left: { src: "/Top Level Diagram.png", alt: "Top Level Diagram", bg: "light" },
+          right: { src: "/BMU_Top.png", alt: "BMU top view", bg: "dark" },
+        },
+                {
+          label: "",
+          left: { src: "/BMU_IC_Schematic.png", alt: "BMU IC with Battery Schematic", bg: "light" },
+          right: { src: "/BMU_bottom.png", alt: "BMU bottom view", bg: "light" },
+        },
+                        {
+          label: "",
+          left: { src: "/Main_MCU.png", alt: "Main MCU Schematic", bg: "light" },
+          right: { src: "/BMU_side.png", alt: "BMU isometric side view", bg: "dark" },
+        },
+      ],
+    },
+  {
     slug: "drone",
     title: "Custom Quadcopter Electronics Stack",
     subtitle:
@@ -55,6 +87,8 @@ export const projects: Project[] = [
       },
     ],
   },
+
+
 
   {
     slug: "ethernet",
