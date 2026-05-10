@@ -277,9 +277,7 @@ export default function Home() {
 
             {/* Bio — fades in after hero types out */}
             <p className="max-w-2xl text-base text-zinc-400 leading-relaxed" style={contactStyle}>
-              I design hardware — from PCBs and power systems to embedded firmware. Currently interning at{" "}
-              <span className="text-zinc-200">Geoanalysis Engineering</span> and building UAV electronics for{" "}
-              <span className="text-zinc-200">UAARG</span> and <span className="text-zinc-200">ARVP</span>.
+              I&apos;m Arnav Gupta, a Mechatronics &amp; Robotics Engineering student at the University of Alberta. I design hardware, from PCBs and power systems to embedded firmware. Currently interning at Geoanalysis Engineering and building UAV electronics for UAARG and ARVP.
             </p>
 
             {/* Interests — appears after hero is done */}
