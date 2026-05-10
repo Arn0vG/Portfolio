@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/project";
 import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
-import { SpotlightMask } from "../components/SpotlightMask";
 import { Nav } from "../components/Nav";
 
 type Phase = "typing" | "holding" | "deleting";
@@ -12,9 +11,7 @@ type Phase = "typing" | "holding" | "deleting";
 function SectionLabel({ text }: { text: string }) {
   return (
     <div className="flex items-center gap-4 mb-4">
-      <span className="font-mono text-xs text-indigo-400/70 tracking-widest">
-        // {text}
-      </span>
+      <span className="font-mono text-xs text-indigo-400/70 tracking-widest">// {text}</span>
       <div className="flex-1 h-px bg-white/[0.06]" />
     </div>
   );
@@ -46,6 +43,14 @@ function IconDocument(props: { className?: string }) {
       <polyline points="14 2 14 8 20 8" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
       <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconPhone(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.77 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.68 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.65a16 16 0 0 0 6.29 6.29l1.01-1.01a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -117,23 +122,26 @@ export default function Home() {
       {/* BACKGROUND */}
       <div className="pointer-events-none absolute inset-0">
         <CleanDiagonalBackground className="absolute inset-0" />
-        <SpotlightMask strength={0.7} radius={280} />
       </div>
 
       <main className="relative mx-auto max-w-6xl px-8 pt-36 pb-24 scroll-smooth" id="top">
 
-        {/* ── HERO ─────────────────────────────────────────────── */}
+        {/* ── HERO ── */}
         <header className="space-y-8">
           <div className="space-y-4">
-            <p className="font-mono text-sm text-indigo-400/80 tracking-widest">
-              hello, world —
-            </p>
+            <p className="font-mono text-sm text-indigo-400/80 tracking-widest">hello, world —</p>
 
             <h1 className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl bg-gradient-to-br from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
               Arnav Gupta
             </h1>
 
-            <p className="text-xl text-zinc-400 max-w-xl leading-relaxed">
+            {/* Current role badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-sm text-green-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+              Hardware Design Engineering Intern · Geoanalysis Engineering
+            </div>
+
+            <p className="text-lg text-zinc-400 max-w-xl leading-relaxed">
               Second-Year Mechatronics & Robotics Engineering Co-op Student
               <span className="text-zinc-600"> — </span>
               University of Alberta
@@ -151,11 +159,19 @@ export default function Home() {
           {/* Contact */}
           <div className="flex flex-wrap gap-3 text-sm" id="contact">
             <a
-              href="mailto:arnav11@ualberta.ca"
+              href="mailto:arnav207@gmail.com"
               className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition"
             >
               <IconMail className="h-4 w-4" />
-              arnav11@ualberta.ca
+              arnav207@gmail.com
+            </a>
+
+            <a
+              href="tel:+14038992495"
+              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition"
+            >
+              <IconPhone className="h-4 w-4" />
+              (403) 899-2495
             </a>
 
             <a
@@ -185,11 +201,10 @@ export default function Home() {
           </div>
         </header>
 
-        {/* ── SKILLS ───────────────────────────────────────────── */}
+        {/* ── SKILLS ── */}
         <section className="mt-32 scroll-mt-20" id="skills">
           <SectionLabel text="skills" />
           <h2 className="text-4xl font-bold tracking-tight">Skills</h2>
-          <p className="mt-3 text-zinc-500">Hardware-first, comfortable all the way up the stack.</p>
 
           <div className="mt-8 space-y-3">
             {skillCategories.map((cat) => (
@@ -197,9 +212,7 @@ export default function Home() {
                 key={cat.label}
                 className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-7 py-5 transition hover:border-white/[0.11]"
               >
-                {/* Left accent stripe */}
                 <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/70 via-indigo-500/30 to-transparent" />
-
                 <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.15em] text-indigo-400/70">
                   {cat.label}
                 </p>
@@ -218,7 +231,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── PROJECTS ─────────────────────────────────────────── */}
+        {/* ── PROJECTS ── */}
         <section className="mt-32 scroll-mt-20" id="projects">
           <SectionLabel text="projects" />
           <h2 className="text-4xl font-bold tracking-tight">Projects</h2>

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { projects } from "../../../content/project";
 import { ImageLightbox } from "../../../components/ImageLightbox";
 import { CleanDiagonalBackground } from "../../../components/CleanDiagonalBackground";
-import { SpotlightMask } from "../../../components/SpotlightMask";
 import { Nav } from "../../../components/Nav";
 
 type LightboxState = {
@@ -91,7 +90,6 @@ export default function ProjectSlugPage() {
       {/* BACKGROUND */}
       <div className="pointer-events-none absolute inset-0">
         <CleanDiagonalBackground className="absolute inset-0" />
-        <SpotlightMask strength={0.7} radius={280} />
       </div>
 
       <main className="relative mx-auto max-w-6xl px-8 pt-28 pb-24">
