@@ -201,8 +201,89 @@ export default function Home() {
           </div>
         </header>
 
+        {/* ── STATS ── */}
+        <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {[
+            { value: "220+", unit: "A", label: "Peak current designed for" },
+            { value: "4", unit: "", label: "PCB designs completed" },
+            { value: "6", unit: "-Layer", label: "Most complex board" },
+            { value: "1+", unit: " Gbps", label: "High-speed routing" },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-5 py-4 text-center"
+            >
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
+              <p className="text-2xl font-bold text-white tabular-nums">
+                {s.value}
+                <span className="text-base font-semibold text-indigo-400">{s.unit}</span>
+              </p>
+              <p className="mt-1 text-xs text-zinc-600">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* ── EXPERIENCE ── */}
+        <section className="mt-28 scroll-mt-20" id="experience">
+          <SectionLabel text="experience" />
+          <h2 className="text-4xl font-bold tracking-tight">Experience</h2>
+
+          <div className="mt-8 space-y-4">
+            {[
+              {
+                role: "Hardware Design Engineering Intern",
+                org: "Geoanalysis Engineering",
+                period: "2025 — Present",
+                tags: ["Altium Designer", "PCB Design", "Embedded Hardware", "Instrumentation"],
+                current: true,
+              },
+              {
+                role: "Mechatronics & Robotics Engineering Co-op",
+                org: "University of Alberta",
+                period: "2024 — Present",
+                tags: ["Mechatronics", "Robotics", "Co-op Program"],
+                current: false,
+              },
+            ].map((exp) => (
+              <div
+                key={exp.org}
+                className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-7 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 transition hover:border-white/[0.11]"
+              >
+                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/70 via-indigo-500/30 to-transparent" />
+
+                <div>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <h3 className="text-base font-semibold text-zinc-100">{exp.role}</h3>
+                    {exp.current && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/25 bg-green-500/10 px-2.5 py-0.5 text-xs text-green-400">
+                        <span className="h-1 w-1 rounded-full bg-green-400 animate-pulse" />
+                        Current
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-1 text-sm text-zinc-500">{exp.org}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {exp.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-md border border-white/[0.07] bg-white/[0.02] px-2.5 py-1 text-xs text-zinc-400"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <span className="shrink-0 font-mono text-xs text-zinc-600 sm:text-right">
+                  {exp.period}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* ── SKILLS ── */}
-        <section className="mt-32 scroll-mt-20" id="skills">
+        <section className="mt-28 scroll-mt-20" id="skills">
           <SectionLabel text="skills" />
           <h2 className="text-4xl font-bold tracking-tight">Skills</h2>
 

@@ -27,8 +27,8 @@ export function CleanDiagonalBackground({ className }: { className?: string }) {
         className="absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
         }}
@@ -39,14 +39,14 @@ export function CleanDiagonalBackground({ className }: { className?: string }) {
         className="fixed inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(99,102,241,0.45) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(99,102,241,0.45) 1px, transparent 1px)
+            linear-gradient(rgba(99,102,241,0.28) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(99,102,241,0.28) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
           WebkitMaskImage:
-            "radial-gradient(380px circle at var(--mx, -999px) var(--my, -999px), black 0%, transparent 100%)",
+            "radial-gradient(180px circle at var(--mx, -999px) var(--my, -999px), black 0%, transparent 100%)",
           maskImage:
-            "radial-gradient(380px circle at var(--mx, -999px) var(--my, -999px), black 0%, transparent 100%)",
+            "radial-gradient(180px circle at var(--mx, -999px) var(--my, -999px), black 0%, transparent 100%)",
         }}
       />
 
