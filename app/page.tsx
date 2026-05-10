@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/project";
 import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
@@ -9,7 +9,7 @@ import { RevealSection } from "../components/RevealSection";
 
 type Phase = "typing" | "holding" | "deleting";
 
-function fadeUp(delay: number): React.CSSProperties {
+function fadeUp(delay: number): CSSProperties {
   return { animation: `fadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms both` };
 }
 
