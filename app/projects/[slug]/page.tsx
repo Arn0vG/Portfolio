@@ -35,22 +35,22 @@ function ImageTile({
     <button
       type="button"
       onClick={onClick}
-      className="group relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-3 text-left hover:border-white/20 transition"
+      className="group relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] text-left hover:border-white/[0.15] transition"
     >
-      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl">
+      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-t-xl">
         <Image
           src={src}
           alt={alt}
           fill
-          className={`object-contain ${bg === "light" ? "bg-white" : "bg-black"}`}
+          className={`object-contain ${bg === "light" ? "bg-white" : "bg-black"} transition-transform duration-300 group-hover:scale-[1.03]`}
           sizes="(max-width: 1024px) 100vw, 50vw"
         />
       </div>
 
-      <div className="mt-2 flex items-center justify-between gap-3 px-1">
-        <span className="text-sm text-zinc-200">{label}</span>
-        <span className="text-xs text-zinc-400 opacity-0 transition-opacity group-hover:opacity-100">
-          Click to expand ↗
+      <div className="flex items-center justify-between gap-3 px-4 py-3">
+        <span className="text-sm text-zinc-300">{label}</span>
+        <span className="text-xs text-zinc-500 opacity-0 transition-opacity group-hover:opacity-100">
+          expand ↗
         </span>
       </div>
     </button>
@@ -60,15 +60,10 @@ function ImageTile({
 export default function ProjectSlugPage() {
   const params = useParams<{ slug: string }>();
   const slug = params.slug;
-
   const project = useMemo(() => projects.find((p) => p.slug === slug), [slug]);
 
   const [lightbox, setLightbox] = useState<LightboxState>({
-    open: false,
-    title: "",
-    src: "",
-    alt: "",
-    bg: "dark",
+    open: false, title: "", src: "", alt: "", bg: "dark",
   });
 
   const openImage = (opts: Omit<LightboxState, "open">) =>
@@ -77,14 +72,11 @@ export default function ProjectSlugPage() {
 
   if (!project) {
     return (
-      <div className="relative min-h-screen bg-black text-zinc-100 overflow-hidden">
+      <div className="relative min-h-screen bg-[#05050f] text-zinc-100 overflow-hidden">
         <Nav />
         <main className="mx-auto max-w-4xl px-8 py-32">
-          <p className="text-zinc-400">Project not found.</p>
-          <Link
-            href="/#projects"
-            className="mt-6 inline-block text-sm text-zinc-400 hover:text-zinc-200 transition"
-          >
+          <p className="text-zinc-500">Project not found.</p>
+          <Link href="/#projects" className="mt-6 inline-block text-sm text-indigo-400 hover:text-indigo-300 transition">
             ← Back to Projects
           </Link>
         </main>
@@ -93,46 +85,61 @@ export default function ProjectSlugPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-black text-zinc-100 overflow-hidden">
+    <div className="relative min-h-screen bg-[#05050f] text-zinc-100 overflow-hidden">
       <Nav />
 
       {/* BACKGROUND */}
       <div className="pointer-events-none absolute inset-0">
         <CleanDiagonalBackground className="absolute inset-0" />
-        <SpotlightMask strength={0.9} radius={100} />
-        <div className="absolute -top-52 -left-52 h-[680px] w-[680px] rounded-full bg-indigo-500/14 blur-[150px]" />
-        <div className="absolute top-1/3 -right-52 h-[620px] w-[620px] rounded-full bg-cyan-500/12 blur-[150px]" />
+        <SpotlightMask strength={0.7} radius={280} />
       </div>
 
-      <main className="relative mx-auto max-w-7xl px-8 pt-28 pb-24">
+      <main className="relative mx-auto max-w-6xl px-8 pt-28 pb-24">
         <Link
           href="/#projects"
-          className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition"
+          className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-200 transition-colors"
         >
           ← Back to Projects
         </Link>
 
-        <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{project.title}</h1>
-        <p className="mt-4 max-w-4xl text-lg text-zinc-300 leading-relaxed">{project.subtitle}</p>
+        {/* Header */}
+        <div className="mt-8">
+          <div className="flex items-center gap-4 mb-3">
+            <span className="font-mono text-xs text-indigo-400/70 tracking-widest">// project</span>
+            <div className="flex-1 h-px bg-white/[0.06]" />
+          </div>
 
-        <div className="mt-6 flex flex-wrap gap-2.5">
-          {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-sm text-zinc-200"
-            >
-              {tag}
-            </span>
-          ))}
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl leading-tight">
+            {project.title}
+          </h1>
+          <p className="mt-4 max-w-3xl text-lg text-zinc-400 leading-relaxed">
+            {project.subtitle}
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-md border border-white/[0.07] bg-white/[0.03] px-3 py-1.5 text-sm text-zinc-400"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
 
-        {/* Write-up */}
-        <section className="mt-12">
-          <h2 className="text-2xl font-semibold tracking-tight">Overview</h2>
-          <div className="mt-5 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-sm px-7 py-6 space-y-3">
+        {/* Overview */}
+        <section className="mt-14">
+          <div className="flex items-center gap-4 mb-4">
+            <span className="font-mono text-xs text-indigo-400/70 tracking-widest">// overview</span>
+            <div className="flex-1 h-px bg-white/[0.06]" />
+          </div>
+
+          <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-7 py-6 space-y-4">
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/70 via-indigo-500/30 to-transparent" />
             {project.highlights.map((point, i) => (
-              <p key={i} className="flex gap-3 text-base text-zinc-200 leading-relaxed">
-                <span className="mt-1 shrink-0 text-indigo-400">▸</span>
+              <p key={i} className="flex gap-3 text-sm text-zinc-300 leading-relaxed">
+                <span className="mt-0.5 shrink-0 text-indigo-500/70">▸</span>
                 {point}
               </p>
             ))}
@@ -144,7 +151,10 @@ export default function ProjectSlugPage() {
           {project.pairs.map((pair, i) => (
             <div key={i}>
               {pair.label && (
-                <h2 className="text-2xl font-semibold tracking-tight mb-5">{pair.label}</h2>
+                <div className="flex items-center gap-4 mb-5">
+                  <h2 className="text-xl font-semibold text-zinc-100">{pair.label}</h2>
+                  <div className="flex-1 h-px bg-white/[0.06]" />
+                </div>
               )}
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -162,7 +172,6 @@ export default function ProjectSlugPage() {
                     })
                   }
                 />
-
                 <ImageTile
                   label="Top View"
                   src={pair.right.src}
@@ -182,8 +191,11 @@ export default function ProjectSlugPage() {
           ))}
         </section>
 
-        <footer className="mt-24 border-t border-white/10 pt-8 text-sm text-zinc-500">
-          © 2026 Arnav Gupta — built with Next.js + TypeScript
+        <footer className="mt-24 border-t border-white/[0.06] pt-8 flex items-center justify-between text-sm text-zinc-600">
+          <Link href="/#projects" className="hover:text-zinc-400 transition-colors">
+            ← Back to Projects
+          </Link>
+          <span className="font-mono text-xs">© 2026 Arnav Gupta</span>
         </footer>
       </main>
 

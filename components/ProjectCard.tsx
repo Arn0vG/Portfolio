@@ -8,50 +8,43 @@ import Link from "next/link";
 
 type Props = {
   project: Project;
+  index: number;
 };
 
-export function ProjectCard({ project }: Props) {
+export function ProjectCard({ project, index }: Props) {
   const [lightbox, setLightbox] = useState<{
     open: boolean;
     title: string;
     src: string;
     alt: string;
     bg: "dark" | "light";
-  }>({
-    open: false,
-    title: "",
-    src: "",
-    alt: "",
-    bg: "dark",
-  });
+  }>({ open: false, title: "", src: "", alt: "", bg: "dark" });
 
-  const openImage = (opts: {
-    title: string;
-    src: string;
-    alt: string;
-    bg: "dark" | "light";
-  }) => setLightbox({ open: true, ...opts });
-
+  const openImage = (opts: { title: string; src: string; alt: string; bg: "dark" | "light" }) =>
+    setLightbox({ open: true, ...opts });
   const closeImage = () => setLightbox((s) => ({ ...s, open: false }));
 
   return (
     <>
-      <article className="signal-packet group relative overflow-hidden rounded-3xl border border-white/10 bg-black/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-white/25 hover:bg-black/50">
-        {/* Hover glow */}
-        <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <div className="absolute -top-28 -left-28 h-80 w-80 rounded-full bg-indigo-500/12 blur-[90px]" />
-          <div className="absolute -bottom-28 -right-28 h-80 w-80 rounded-full bg-cyan-500/12 blur-[90px]" />
-        </div>
+      <article className="signal-packet group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.13] hover:bg-white/[0.035]">
+        {/* Subtle top border glow on hover */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-        <div className="relative grid grid-cols-1 lg:grid-cols-[1.5fr_1fr]">
-          {/* IMAGES (groups of 2) */}
-          <div className="p-6 border-b border-white/10 lg:border-b-0 lg:border-r space-y-6">
-            {project.pairs.map((pair) => (
-              <div key={pair.label}>
-                <div className="mb-3 flex items-center justify-between">
-                  <p className="text-sm font-medium text-zinc-200">{pair.label}</p>
-                  <p className="text-xs text-zinc-400">Schematic • Top</p>
-                </div>
+        {/* Project number */}
+        <span className="absolute top-5 right-6 font-mono text-xs text-zinc-700 select-none">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
+        <div className="relative grid grid-cols-1 lg:grid-cols-[1.6fr_1fr]">
+          {/* ── IMAGES ── */}
+          <div className="p-5 border-b border-white/[0.06] lg:border-b-0 lg:border-r lg:border-r-white/[0.06] space-y-5">
+            {project.pairs.map((pair, i) => (
+              <div key={i}>
+                {pair.label && (
+                  <p className="mb-2.5 font-mono text-[11px] uppercase tracking-widest text-zinc-600">
+                    {pair.label}
+                  </p>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {/* Schematic */}
@@ -59,28 +52,26 @@ export function ProjectCard({ project }: Props) {
                     type="button"
                     onClick={() =>
                       openImage({
-                        title: `${project.title} — ${pair.label} (Schematic)`,
+                        title: `${project.title}${pair.label ? ` — ${pair.label}` : ""} (Schematic)`,
                         src: pair.left.src,
                         alt: pair.left.alt,
                         bg: pair.left.bg ?? "light",
                       })
                     }
-                    className="group/img relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-white/5 text-left"
+                    className="group/img relative aspect-[16/10] overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.03] text-left hover:border-white/[0.15] transition"
                   >
                     <Image
                       src={pair.left.src}
                       alt={pair.left.alt}
                       fill
-                      className={`object-contain ${
-                        pair.left.bg === "dark" ? "bg-black" : "bg-white"
-                      } transition-transform duration-300 group-hover/img:scale-[1.03]`}
+                      className={`object-contain ${pair.left.bg === "dark" ? "bg-black" : "bg-white"} transition-transform duration-300 group-hover/img:scale-[1.04]`}
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
-                    <span className="absolute left-4 top-4 rounded-full bg-black/70 px-4 py-1.5 text-sm text-zinc-200">
+                    <span className="absolute left-3 top-3 rounded-md bg-black/70 px-2.5 py-1 text-xs text-zinc-300 backdrop-blur-sm">
                       Schematic
                     </span>
-                    <span className="absolute bottom-4 left-4 rounded-full border border-white/10 bg-black/60 px-3 py-1.5 text-xs text-zinc-200 opacity-0 transition-opacity group-hover/img:opacity-100">
-                      Click to expand
+                    <span className="absolute bottom-3 right-3 rounded-md border border-white/10 bg-black/60 px-2.5 py-1 text-xs text-zinc-400 opacity-0 transition-opacity group-hover/img:opacity-100 backdrop-blur-sm">
+                      expand ↗
                     </span>
                   </button>
 
@@ -89,28 +80,26 @@ export function ProjectCard({ project }: Props) {
                     type="button"
                     onClick={() =>
                       openImage({
-                        title: `${project.title} — ${pair.label} (Top)`,
+                        title: `${project.title}${pair.label ? ` — ${pair.label}` : ""} (Top)`,
                         src: pair.right.src,
                         alt: pair.right.alt,
                         bg: pair.right.bg ?? "dark",
                       })
                     }
-                    className="group/img relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10 bg-black/60 text-left"
+                    className="group/img relative aspect-[16/10] overflow-hidden rounded-xl border border-white/[0.07] bg-black/60 text-left hover:border-white/[0.15] transition"
                   >
                     <Image
                       src={pair.right.src}
                       alt={pair.right.alt}
                       fill
-                      className={`object-contain ${
-                        pair.right.bg === "light" ? "bg-white" : "bg-black"
-                      } transition-transform duration-300 group-hover/img:scale-[1.03]`}
+                      className={`object-contain ${pair.right.bg === "light" ? "bg-white" : "bg-black"} transition-transform duration-300 group-hover/img:scale-[1.04]`}
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
-                    <span className="absolute left-4 top-4 rounded-full bg-black/70 px-4 py-1.5 text-sm text-zinc-200">
+                    <span className="absolute left-3 top-3 rounded-md bg-black/70 px-2.5 py-1 text-xs text-zinc-300 backdrop-blur-sm">
                       Top View
                     </span>
-                    <span className="absolute bottom-4 left-4 rounded-full border border-white/10 bg-black/60 px-3 py-1.5 text-xs text-zinc-200 opacity-0 transition-opacity group-hover/img:opacity-100">
-                      Click to expand
+                    <span className="absolute bottom-3 right-3 rounded-md border border-white/10 bg-black/60 px-2.5 py-1 text-xs text-zinc-400 opacity-0 transition-opacity group-hover/img:opacity-100 backdrop-blur-sm">
+                      expand ↗
                     </span>
                   </button>
                 </div>
@@ -118,33 +107,45 @@ export function ProjectCard({ project }: Props) {
             ))}
           </div>
 
-          {/* CONTENT */}
-          <div className="relative p-8">
-            <Link
-              href={`/projects/${project.slug}`}
-              className="hover:underline underline-offset-4"
-            >
-              <h3 className="text-2xl font-semibold tracking-tight">{project.title}</h3>
-            </Link>
+          {/* ── CONTENT ── */}
+          <div className="relative flex flex-col p-7">
+            <div className="flex-1">
+              <Link href={`/projects/${project.slug}`} className="group/title">
+                <h3 className="text-xl font-semibold tracking-tight text-zinc-100 group-hover/title:text-white transition-colors leading-snug pr-8">
+                  {project.title}
+                </h3>
+              </Link>
 
-            <p className="mt-3 text-base text-zinc-400">{project.subtitle}</p>
+              <p className="mt-3 text-sm text-zinc-500 leading-relaxed">{project.subtitle}</p>
 
-            <div className="mt-5 flex flex-wrap gap-2.5">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-zinc-200"
-                >
-                  {tag}
-                </span>
-              ))}
+              <div className="mt-5 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-md border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-xs text-zinc-400"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <ul className="mt-5 space-y-2.5">
+                {project.highlights.map((point, i) => (
+                  <li key={i} className="flex gap-2.5 text-sm text-zinc-400 leading-relaxed">
+                    <span className="mt-1 shrink-0 text-indigo-500/70">▸</span>
+                    {point}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <ul className="mt-6 space-y-3 text-base text-zinc-200">
-              {project.highlights.map((point) => (
-                <li key={point}>• {point}</li>
-              ))}
-            </ul>
+            <Link
+              href={`/projects/${project.slug}`}
+              className="mt-7 self-start inline-flex items-center gap-1.5 text-sm text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+            >
+              View full project
+              <span className="text-base leading-none">→</span>
+            </Link>
           </div>
         </div>
       </article>
