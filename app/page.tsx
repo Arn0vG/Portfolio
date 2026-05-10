@@ -1,17 +1,68 @@
 "use client";
 
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/project";
 import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
 import { Nav } from "../components/Nav";
 import { RevealSection } from "../components/RevealSection";
 
-type Phase = "typing" | "holding" | "deleting";
+// ── Timing constants ───────────────────────────────────────────────────────────
+const LABEL_TEXT    = "hello, world —";
+const NAME_TEXT     = "Arnav Gupta";
+const BADGE_TEXT    = "Hardware Design Engineering Intern @ Geoanalysis Engineering";
+const SUBTITLE_TEXT = "Third-Year Mechatronics & Robotics Engineering Co-op · University of Alberta";
 
-function fadeUp(delay: number): CSSProperties {
-  return { animation: `fadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms both` };
+const LABEL_START  = 300;  const LABEL_SPEED  = 7;
+const NAME_START   = LABEL_START  + LABEL_TEXT.length    * LABEL_SPEED  + 80;
+const NAME_SPEED   = 24;
+const BADGE_START  = NAME_START   + NAME_TEXT.length     * NAME_SPEED   + 80;
+const BADGE_SPEED  = 6;
+const SUB_START    = BADGE_START  + BADGE_TEXT.length    * BADGE_SPEED  + 70;
+const SUB_SPEED    = 5;
+const CONTACT_SHOW = SUB_START    + SUBTITLE_TEXT.length * SUB_SPEED    + 150;
+const INTEREST_START = CONTACT_SHOW + 250;
+
+// ── Hooks ──────────────────────────────────────────────────────────────────────
+function useTypewriter(text: string, startMs: number, speedMs: number) {
+  const [out, setOut] = useState("");
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+
+    let cancelled = false;
+    let i = 0;
+
+    const t = window.setTimeout(() => {
+      const tick = () => {
+        if (cancelled) return;
+        i++;
+        setOut(text.slice(0, i));
+        if (i < text.length) window.setTimeout(tick, speedMs);
+      };
+      tick();
+    }, startMs);
+
+    return () => { cancelled = true; window.clearTimeout(t); };
+  }, [text, startMs, speedMs]);
+
+  return { out, done: out.length >= text.length };
 }
+
+// ── Sub-components ─────────────────────────────────────────────────────────────
+function Cursor() {
+  return (
+    <span
+      aria-hidden="true"
+      className="ml-0.5 inline-block w-[2px] align-middle bg-indigo-400/70 animate-pulse"
+      style={{ height: "0.85em" }}
+    />
+  );
+}
+
+type Phase = "typing" | "holding" | "deleting";
 
 function SectionLabel({ text }: { text: string }) {
   return (
@@ -30,17 +81,14 @@ function IconMail(props: { className?: string }) {
     </svg>
   );
 }
-
 function IconLinkedIn(props: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={props.className} fill="currentColor" aria-hidden="true">
       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-      <rect x="2" y="9" width="4" height="12" />
-      <circle cx="4" cy="4" r="2" />
+      <rect x="2" y="9" width="4" height="12" /><circle cx="4" cy="4" r="2" />
     </svg>
   );
 }
-
 function IconDocument(props: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
@@ -51,7 +99,6 @@ function IconDocument(props: { className?: string }) {
     </svg>
   );
 }
-
 function IconPhone(props: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
@@ -59,7 +106,6 @@ function IconPhone(props: { className?: string }) {
     </svg>
   );
 }
-
 function IconPin(props: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
@@ -69,23 +115,12 @@ function IconPin(props: { className?: string }) {
   );
 }
 
+// ── Data ───────────────────────────────────────────────────────────────────────
 const skillCategories = [
-  {
-    label: "Hardware & Design",
-    pills: ["PCB Design", "ASIC Design", "Embedded Hardware", "Power Systems", "RF Control", "PWM", "Motor Control", "High-Speed Routing", "PCB Simulation", "Soldering", "3D Modelling"],
-  },
-  {
-    label: "Tools",
-    pills: ["Altium Designer", "KiCad", "AutoCAD", "SolidWorks", "Fusion 360", "LTspice", "Git", "Node.js", "Unity"],
-  },
-  {
-    label: "Languages",
-    pills: ["C/C++", "Python", "Java", "TypeScript", "MATLAB", "C#"],
-  },
-  {
-    label: "HDLs",
-    pills: ["Verilog", "SystemVerilog", "VHDL"],
-  },
+  { label: "Hardware & Design", pills: ["PCB Design", "ASIC Design", "Embedded Hardware", "Power Systems", "RF Control", "PWM", "Motor Control", "High-Speed Routing", "PCB Simulation", "Soldering", "3D Modelling"] },
+  { label: "Tools", pills: ["Altium Designer", "KiCad", "AutoCAD", "SolidWorks", "Fusion 360", "LTspice", "Git", "Node.js", "Unity"] },
+  { label: "Languages", pills: ["C/C++", "Python", "Java", "TypeScript", "MATLAB", "C#"] },
+  { label: "HDLs", pills: ["Verilog", "SystemVerilog", "VHDL"] },
 ];
 
 const experiences = [
@@ -93,16 +128,14 @@ const experiences = [
     role: "Hardware Design Engineering Intern",
     org: "Geoanalysis Engineering",
     period: "2025 — Present",
-    location: "Edmonton, AB",
     tags: ["Altium Designer", "PCB Design", "Embedded Hardware", "Instrumentation"],
     current: true,
-    bullets: [],
+    bullets: [] as string[],
   },
   {
     role: "Electrical Member",
     org: "UAARG — University of Alberta Aerial Robotics Group",
     period: "Feb 2026 — Present",
-    location: "Edmonton, AB",
     tags: ["Altium", "STM32", "BQ76952", "Battery Management", "CAN Bus"],
     current: true,
     bullets: [
@@ -115,7 +148,6 @@ const experiences = [
     role: "Electrical Division Member",
     org: "ARVP — Autonomous Robotic Vehicle Project",
     period: "Sep 2025 — Present",
-    location: "Edmonton, AB",
     tags: ["Teensy 4.0", "CAN", "I²C", "UART", "LTspice", "Firmware"],
     current: true,
     bullets: [
@@ -128,7 +160,6 @@ const experiences = [
     role: "Lead Designer",
     org: "Golf Sim",
     period: "Sep 2022 — Sep 2024",
-    location: "Calgary, AB",
     tags: ["AutoCAD", "SolidWorks", "System Integration"],
     current: false,
     bullets: [
@@ -138,28 +169,46 @@ const experiences = [
   },
 ];
 
+// ── Page ───────────────────────────────────────────────────────────────────────
 export default function Home() {
+  // Sequential hero type-out (each fires once on mount)
+  const label    = useTypewriter(LABEL_TEXT,    LABEL_START,  LABEL_SPEED);
+  const nameType = useTypewriter(NAME_TEXT,     NAME_START,   NAME_SPEED);
+  const badge    = useTypewriter(BADGE_TEXT,    BADGE_START,  BADGE_SPEED);
+  const subtitle = useTypewriter(SUBTITLE_TEXT, SUB_START,    SUB_SPEED);
+
+  // Contact + interests appear after hero is done
+  const [contactVisible, setContactVisible] = useState(false);
+  const [interestStarted, setInterestStarted] = useState(false);
+
+  useEffect(() => {
+    const t1 = window.setTimeout(() => setContactVisible(true), CONTACT_SHOW);
+    const t2 = window.setTimeout(() => setInterestStarted(true), INTEREST_START);
+    return () => { window.clearTimeout(t1); window.clearTimeout(t2); };
+  }, []);
+
+  // Cycling interests typewriter — only after hero is done
   const interests = useMemo(
     () => ["PCB Design", "ASIC Design", "Embedded Systems", "Programming", "3D Modelling", "Chess", "Skiing", "Soccer"],
     []
   );
-
   const [idx, setIdx] = useState(0);
   const [phase, setPhase] = useState<Phase>("typing");
-  const [text, setText] = useState("");
+  const [interestText, setInterestText] = useState("");
 
   useEffect(() => {
+    if (!interestStarted) return;
     const full = interests[idx % interests.length];
     const timer = window.setTimeout(() => {
       if (phase === "typing") {
-        const next = full.slice(0, text.length + 1);
-        setText(next);
+        const next = full.slice(0, interestText.length + 1);
+        setInterestText(next);
         if (next === full) setPhase("holding");
       } else if (phase === "holding") {
         setPhase("deleting");
       } else {
-        const next = full.slice(0, Math.max(0, text.length - 1));
-        setText(next);
+        const next = full.slice(0, Math.max(0, interestText.length - 1));
+        setInterestText(next);
         if (next.length === 0) {
           setIdx((i) => (i + 1) % interests.length);
           setPhase("typing");
@@ -167,7 +216,12 @@ export default function Home() {
       }
     }, phase === "typing" ? 70 : phase === "deleting" ? 45 : 1100);
     return () => window.clearTimeout(timer);
-  }, [idx, phase, text, interests]);
+  }, [idx, phase, interestText, interests, interestStarted]);
+
+  const contactStyle: CSSProperties = {
+    opacity: contactVisible ? 1 : 0,
+    transition: "opacity 0.6s ease",
+  };
 
   return (
     <div className="relative min-h-screen bg-[#05050f] text-zinc-100 overflow-hidden">
@@ -182,78 +236,68 @@ export default function Home() {
         {/* ── HERO ── */}
         <header className="space-y-8">
           <div className="space-y-4">
-            <p className="font-mono text-sm text-indigo-400/80 tracking-widest" style={fadeUp(80)}>
-              hello, world —
+
+            {/* Annotation */}
+            <p className="font-mono text-sm text-indigo-400/80 tracking-widest min-h-[1.5rem]">
+              {label.out}
+              {!label.done && <Cursor />}
             </p>
 
-            <h1
-              className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl bg-gradient-to-br from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent"
-              style={fadeUp(180)}
-            >
-              Arnav Gupta
+            {/* Name */}
+            <h1 className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl min-h-[1.2em]">
+              <span className="bg-gradient-to-br from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+                {nameType.out}
+              </span>
+              {!nameType.done && nameType.out.length > 0 && <Cursor />}
             </h1>
 
-            <div style={fadeUp(280)}>
-              <div className="inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-sm text-green-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-                Hardware Design Engineering Intern @ Geoanalysis Engineering
-              </div>
+            {/* Badge */}
+            <div className="min-h-[2.25rem] flex items-center">
+              {badge.out.length > 0 && (
+                <div className="inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-sm text-green-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+                  {badge.out}
+                  {!badge.done && <Cursor />}
+                </div>
+              )}
             </div>
 
-            <p className="text-base text-zinc-400 whitespace-nowrap" style={fadeUp(360)}>
-              Third-Year Mechatronics &amp; Robotics Engineering Co-op · University of Alberta
+            {/* Subtitle */}
+            <p className="text-base text-zinc-400 min-h-[1.5rem]">
+              {subtitle.out}
+              {!subtitle.done && subtitle.out.length > 0 && <Cursor />}
             </p>
 
-            <p className="text-lg text-zinc-300" style={fadeUp(440)}>
-              Interests:{" "}
-              <span className="font-semibold text-white">
-                {text}
-                <span className="ml-0.5 inline-block h-5 w-[2px] translate-y-[3px] bg-indigo-400/80 animate-pulse" />
-              </span>
+            {/* Interests — appears after hero is done */}
+            <p className="text-lg text-zinc-300 min-h-[1.75rem]" style={contactStyle}>
+              {interestStarted && (
+                <>
+                  Interests:{" "}
+                  <span className="font-semibold text-white">
+                    {interestText}
+                    <span className="ml-0.5 inline-block h-5 w-[2px] translate-y-[3px] bg-indigo-400/80 animate-pulse" />
+                  </span>
+                </>
+              )}
             </p>
           </div>
 
           {/* Contact */}
-          <div className="flex flex-wrap gap-3 text-sm" id="contact" style={fadeUp(540)}>
-            <a
-              href="mailto:arnav207@gmail.com"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition"
-            >
-              <IconMail className="h-4 w-4" />
-              arnav207@gmail.com
+          <div className="flex flex-wrap gap-3 text-sm" id="contact" style={contactStyle}>
+            <a href="mailto:arnav207@gmail.com" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+              <IconMail className="h-4 w-4" />arnav207@gmail.com
             </a>
-
-            <a
-              href="tel:+14038992495"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition"
-            >
-              <IconPhone className="h-4 w-4" />
-              (403) 899-2495
+            <a href="tel:+14038992495" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+              <IconPhone className="h-4 w-4" />(403) 899-2495
             </a>
-
-            <a
-              href="https://www.linkedin.com/in/arnav-gupta121/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition"
-            >
-              <IconLinkedIn className="h-4 w-4" />
-              LinkedIn
+            <a href="https://www.linkedin.com/in/arnav-gupta121/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+              <IconLinkedIn className="h-4 w-4" />LinkedIn
             </a>
-
-            <a
-              href="/Portfolio___Arnav_Gupta__Updated_March_17st_ (3).pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition"
-            >
-              <IconDocument className="h-4 w-4" />
-              Portfolio PDF
+            <a href="/Portfolio___Arnav_Gupta__Updated_March_17st_ (3).pdf" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+              <IconDocument className="h-4 w-4" />Portfolio PDF
             </a>
-
             <span className="inline-flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-2.5 text-zinc-500">
-              <IconPin className="h-4 w-4" />
-              Edmonton, AB
+              <IconPin className="h-4 w-4" />Edmonton, AB
             </span>
           </div>
         </header>
@@ -263,56 +307,40 @@ export default function Home() {
           <SectionLabel text="experience" />
           <h2 className="text-4xl font-bold tracking-tight">Experience</h2>
 
-          {/* Timeline */}
           <div className="relative mt-10">
-            {/* Vertical track */}
             <div className="absolute left-[7px] top-1 w-px bg-gradient-to-b from-indigo-500/60 via-white/[0.08] to-transparent" style={{ bottom: "2rem" }} />
-
             <div className="space-y-6">
               {experiences.map((exp, i) => (
                 <RevealSection key={exp.org} delay={i * 80} className="relative pl-10">
-                  {/* Timeline dot */}
-                  <div
-                    className={`absolute left-0 top-[22px] h-[15px] w-[15px] rounded-full border-2 bg-[#05050f] ${
-                      exp.current ? "border-indigo-400 shadow-[0_0_8px_rgba(99,102,241,0.5)]" : "border-white/20"
-                    }`}
-                  />
-
+                  <div className={`absolute left-0 top-[22px] h-[15px] w-[15px] rounded-full border-2 bg-[#05050f] ${exp.current ? "border-indigo-400 shadow-[0_0_8px_rgba(99,102,241,0.5)]" : "border-white/20"}`} />
                   <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-6 py-5 transition hover:border-white/[0.12]">
                     <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/60 via-indigo-500/20 to-transparent" />
-
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                       <div>
                         <div className="flex items-center gap-3 flex-wrap">
                           <h3 className="text-base font-semibold text-zinc-100">{exp.role}</h3>
                           {exp.current && (
                             <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/25 bg-green-500/10 px-2.5 py-0.5 text-xs text-green-400">
-                              <span className="h-1 w-1 rounded-full bg-green-400 animate-pulse" />
-                              Current
+                              <span className="h-1 w-1 rounded-full bg-green-400 animate-pulse" />Current
                             </span>
                           )}
                         </div>
                         <p className="mt-0.5 text-sm text-zinc-500">{exp.org}</p>
                       </div>
-                      <span className="shrink-0 font-mono text-xs text-zinc-600 sm:pt-0.5">{exp.period}</span>
+                      <span className="shrink-0 font-mono text-xs text-zinc-600">{exp.period}</span>
                     </div>
-
                     {exp.bullets.length > 0 && (
                       <ul className="mt-4 space-y-2">
                         {exp.bullets.map((b, j) => (
                           <li key={j} className="flex gap-2.5 text-sm text-zinc-400 leading-relaxed">
-                            <span className="mt-1 shrink-0 text-indigo-500/60">▸</span>
-                            {b}
+                            <span className="mt-1 shrink-0 text-indigo-500/60">▸</span>{b}
                           </li>
                         ))}
                       </ul>
                     )}
-
                     <div className="mt-4 flex flex-wrap gap-2">
                       {exp.tags.map((t) => (
-                        <span key={t} className="rounded-md border border-white/[0.07] bg-white/[0.02] px-2.5 py-1 text-xs text-zinc-400">
-                          {t}
-                        </span>
+                        <span key={t} className="rounded-md border border-white/[0.07] bg-white/[0.02] px-2.5 py-1 text-xs text-zinc-400">{t}</span>
                       ))}
                     </div>
                   </div>
@@ -326,7 +354,6 @@ export default function Home() {
         <RevealSection className="mt-28 scroll-mt-20" id="skills">
           <SectionLabel text="skills" />
           <h2 className="text-4xl font-bold tracking-tight">Skills</h2>
-
           <div className="mt-8 space-y-3">
             {skillCategories.map((cat, i) => (
               <RevealSection key={cat.label} delay={i * 60}>
@@ -335,9 +362,7 @@ export default function Home() {
                   <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.15em] text-indigo-400/70">{cat.label}</p>
                   <div className="flex flex-wrap gap-2">
                     {cat.pills.map((pill) => (
-                      <span key={pill} className="rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-sm text-zinc-300">
-                        {pill}
-                      </span>
+                      <span key={pill} className="rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-sm text-zinc-300">{pill}</span>
                     ))}
                   </div>
                 </div>
@@ -350,10 +375,7 @@ export default function Home() {
         <RevealSection className="mt-28 scroll-mt-20" id="projects">
           <SectionLabel text="projects" />
           <h2 className="text-4xl font-bold tracking-tight">Projects</h2>
-          <p className="mt-3 text-zinc-500 max-w-2xl">
-            Selected hardware designs — schematic capture, PCB layout, and system-level integration.
-          </p>
-
+          <p className="mt-3 text-zinc-500 max-w-2xl">Selected hardware designs — schematic capture, PCB layout, and system-level integration.</p>
           <div className="mt-10 space-y-8">
             {projects.map((project, i) => (
               <RevealSection key={project.title} delay={i * 80}>
