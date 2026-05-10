@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(npm run *)",
+      "Bash(cmd /c \"cd /d C:\\\\Users\\\\arnav\\\\Portfolio\\\\.claude\\\\worktrees\\\\inspiring-goldwasser-8f6505 && npm run build 2>&1\")"
+    ]
+  }
+}

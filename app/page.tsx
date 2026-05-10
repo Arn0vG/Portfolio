@@ -5,54 +5,9 @@ import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/project";
 import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
 import { SpotlightMask } from "../components/SpotlightMask";
-
-
-
-
-
+import { Nav } from "../components/Nav";
 
 type Phase = "typing" | "holding" | "deleting";
-
-function TypeOnceLine({
-  text,
-  startDelayMs = 0,
-  speedMs = 14,
-}: {
-  text: string;
-  startDelayMs?: number;
-  speedMs?: number;
-}) {
-  const [out, setOut] = useState("");
-
-  useEffect(() => {
-    let cancelled = false;
-    let i = 0;
-
-    const startTimer = window.setTimeout(() => {
-      const tick = () => {
-        if (cancelled) return;
-        i += 1;
-        setOut(text.slice(0, i));
-        if (i < text.length) window.setTimeout(tick, speedMs);
-      };
-      tick();
-    }, startDelayMs);
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(startTimer);
-    };
-  }, [text, startDelayMs, speedMs]);
-
-  return (
-    <p className="text-base sm:text-lg text-zinc-200 leading-8">
-      {out}
-      {out.length < text.length ? (
-        <span className="ml-1 inline-block h-5 w-[2px] translate-y-[3px] bg-zinc-200/60 animate-pulse" />
-      ) : null}
-    </p>
-  );
-}
 
 function IconMail(props: { className?: string }) {
   return (
@@ -72,24 +27,92 @@ function IconMail(props: { className?: string }) {
   );
 }
 
-function IconLink(props: { className?: string }) {
+function IconLinkedIn(props: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
-      <path
-        d="M10 13a5 5 0 0 1 0-7l.5-.5a5 5 0 0 1 7 7l-.5.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M14 11a5 5 0 0 1 0 7l-.5.5a5 5 0 0 1-7-7l.5-.5"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
+    <svg viewBox="0 0 24 24" className={props.className} fill="currentColor" aria-hidden="true">
+      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
     </svg>
   );
 }
+
+function IconDocument(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
+      <path
+        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <polyline
+        points="14 2 14 8 20 8"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <line x1="10" y1="9" x2="8" y2="9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconPin(props: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={props.className} fill="none" aria-hidden="true">
+      <path
+        d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <circle cx="12" cy="9" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+const skillCategories = [
+  {
+    label: "Hardware & Design",
+    pills: [
+      "PCB Design",
+      "ASIC Design",
+      "Embedded Hardware",
+      "RF Control",
+      "PWM",
+      "Motor Control",
+      "High-Speed Routing",
+      "PCB Simulation",
+      "Soldering",
+      "3D Modelling",
+    ],
+  },
+  {
+    label: "Tools",
+    pills: [
+      "Altium Designer",
+      "KiCad",
+      "AutoCAD",
+      "SolidWorks",
+      "Fusion 360",
+      "LTspice",
+      "Git",
+      "Node.js",
+      "Unity",
+    ],
+  },
+  {
+    label: "Languages",
+    pills: ["C/C++", "Python", "Java", "TypeScript", "MATLAB"],
+  },
+  {
+    label: "HDLs",
+    pills: ["Verilog", "SystemVerilog", "VHDL"],
+  },
+];
 
 export default function Home() {
   const interests = useMemo(
@@ -98,7 +121,7 @@ export default function Home() {
       "ASIC Design",
       "Embedded Systems",
       "Programming",
-      "3d Modelling",
+      "3D Modelling",
       "Chess",
       "Skiing",
       "Soccer",
@@ -136,32 +159,19 @@ export default function Home() {
     return () => window.clearTimeout(timer);
   }, [idx, phase, text, interests]);
 
-  const skillLines = useMemo(
-    () => [
-      "Skills: PCB Design, ASIC Design, Embedded Hardware Design, RF Control, PWM, Motor Control, PCB Simulation, High-Speed Signal Routing, Soldering, 3D Modelling",
-      "Developer Tools: Altium Designer, KiCad, AutoCAD, SolidWorks, Fusion 360, LTspice, Git, Node.js, Unity",
-      "Lanuages: C/C++, Python, Java, TypeScript, Matlab  ",
-      "HDLs: Verilog, SystemVerilog, VHDL",
-    ],
-    []
-  );
-
-
-
   return (
     <div className="relative min-h-screen bg-black text-zinc-100 overflow-hidden">
-      {/* BACKGROUND STUFF */}
+      <Nav />
+
+      {/* BACKGROUND */}
       <div className="pointer-events-none absolute inset-0">
-          <CleanDiagonalBackground className="absolute inset-0" />
-          <SpotlightMask strength={0.9} radius={100} />
-        {/* Keep your soft aura glows */}
+        <CleanDiagonalBackground className="absolute inset-0" />
+        <SpotlightMask strength={0.9} radius={100} />
         <div className="absolute -top-52 -left-52 h-[680px] w-[680px] rounded-full bg-indigo-500/14 blur-[150px]" />
         <div className="absolute top-1/3 -right-52 h-[620px] w-[620px] rounded-full bg-cyan-500/12 blur-[150px]" />
       </div>
 
-
-
-      <main className="relative mx-auto max-w-7xl px-8 py-24 scroll-smooth" id="top">
+      <main className="relative mx-auto max-w-7xl px-8 pt-32 pb-24 scroll-smooth" id="top">
         {/* HERO */}
         <header className="space-y-10">
           <div>
@@ -182,7 +192,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Contact buttons (bigger) */}
+          {/* Contact buttons */}
           <div className="flex flex-wrap gap-4 text-base" id="contact">
             <a
               href="mailto:arnav11@ualberta.ca"
@@ -198,7 +208,7 @@ export default function Home() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-200 hover:bg-white/10 hover:text-white transition"
             >
-              <IconLink className="h-5 w-5" />
+              <IconLinkedIn className="h-5 w-5" />
               LinkedIn
             </a>
 
@@ -208,29 +218,50 @@ export default function Home() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-200 hover:bg-white/10 hover:text-white transition"
             >
-              <IconLink className="h-5 w-5" />
+              <IconDocument className="h-5 w-5" />
               Full Portfolio PDF
             </a>
 
-            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-300">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-zinc-300">
+              <IconPin className="h-5 w-5" />
               Edmonton, AB
             </span>
           </div>
         </header>
 
         {/* SKILLS */}
-        <section className="mt-28 scroll-mt-28" id="skills">
+        <section className="mt-28 scroll-mt-20" id="skills">
           <h2 className="text-4xl font-semibold tracking-tight">Skills</h2>
+          <p className="mt-4 text-xl text-zinc-400">
+            Hardware-first, but comfortable all the way up the stack.
+          </p>
 
-          <div className="mt-8 rounded-3xl border border-white/10 bg-black/40 backdrop-blur-sm p-10 space-y-3">
-            <TypeOnceLine text={skillLines[0]} startDelayMs={200} speedMs={12} />
-            <TypeOnceLine text={skillLines[1]} startDelayMs={650} speedMs={10} />
-            <TypeOnceLine text={skillLines[2]} startDelayMs={1150} speedMs={12} />
+          <div className="mt-8 space-y-3">
+            {skillCategories.map((cat) => (
+              <div
+                key={cat.label}
+                className="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-sm px-6 py-5"
+              >
+                <p className="mb-3.5 text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                  {cat.label}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {cat.pills.map((pill) => (
+                    <span
+                      key={pill}
+                      className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-sm text-zinc-200"
+                    >
+                      {pill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* PROJECTS */}
-        <section className="mt-32 scroll-mt-28" id="projects">
+        <section className="mt-32 scroll-mt-20" id="projects">
           <h2 className="text-4xl font-semibold tracking-tight">Projects</h2>
           <p className="mt-4 text-xl text-zinc-400 max-w-4xl">
             Selected hardware designs — schematic capture, PCB layout, and system-level integration.

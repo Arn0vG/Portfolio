@@ -6,6 +6,9 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { projects } from "../../../content/project";
 import { ImageLightbox } from "../../../components/ImageLightbox";
+import { CleanDiagonalBackground } from "../../../components/CleanDiagonalBackground";
+import { SpotlightMask } from "../../../components/SpotlightMask";
+import { Nav } from "../../../components/Nav";
 
 type LightboxState = {
   open: boolean;
@@ -44,10 +47,10 @@ function ImageTile({
         />
       </div>
 
-      <div className="mt-2 flex items-center justify-between gap-3">
+      <div className="mt-2 flex items-center justify-between gap-3 px-1">
         <span className="text-sm text-zinc-200">{label}</span>
         <span className="text-xs text-zinc-400 opacity-0 transition-opacity group-hover:opacity-100">
-          Click to expand
+          Click to expand ↗
         </span>
       </div>
     </button>
@@ -74,12 +77,13 @@ export default function ProjectSlugPage() {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-black text-zinc-100">
-        <main className="mx-auto max-w-4xl px-8 py-20">
+      <div className="relative min-h-screen bg-black text-zinc-100 overflow-hidden">
+        <Nav />
+        <main className="mx-auto max-w-4xl px-8 py-32">
           <p className="text-zinc-400">Project not found.</p>
           <Link
             href="/#projects"
-            className="mt-6 inline-block text-sm text-zinc-400 hover:text-zinc-200"
+            className="mt-6 inline-block text-sm text-zinc-400 hover:text-zinc-200 transition"
           >
             ← Back to Projects
           </Link>
@@ -89,42 +93,61 @@ export default function ProjectSlugPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-zinc-100">
-      <main className="mx-auto max-w-7xl px-8 py-20">
-        <Link href="/#projects" className="text-sm text-zinc-400 hover:text-zinc-200">
+    <div className="relative min-h-screen bg-black text-zinc-100 overflow-hidden">
+      <Nav />
+
+      {/* BACKGROUND */}
+      <div className="pointer-events-none absolute inset-0">
+        <CleanDiagonalBackground className="absolute inset-0" />
+        <SpotlightMask strength={0.9} radius={100} />
+        <div className="absolute -top-52 -left-52 h-[680px] w-[680px] rounded-full bg-indigo-500/14 blur-[150px]" />
+        <div className="absolute top-1/3 -right-52 h-[620px] w-[620px] rounded-full bg-cyan-500/12 blur-[150px]" />
+      </div>
+
+      <main className="relative mx-auto max-w-7xl px-8 pt-28 pb-24">
+        <Link
+          href="/#projects"
+          className="inline-flex items-center gap-1.5 text-sm text-zinc-400 hover:text-zinc-200 transition"
+        >
           ← Back to Projects
         </Link>
 
-        <h1 className="mt-4 text-5xl font-semibold tracking-tight">{project.title}</h1>
-        <p className="mt-4 max-w-4xl text-lg text-zinc-300">{project.subtitle}</p>
+        <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">{project.title}</h1>
+        <p className="mt-4 max-w-4xl text-lg text-zinc-300 leading-relaxed">{project.subtitle}</p>
 
         <div className="mt-6 flex flex-wrap gap-2.5">
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-zinc-200"
+              className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-sm text-zinc-200"
             >
               {tag}
             </span>
           ))}
         </div>
 
-        <section className="mt-10">
-          <h2 className="text-2xl font-semibold">Quick Write-Up</h2>
-          <ul className="mt-4 space-y-2 text-zinc-200">
-            {project.highlights.map((p) => (
-              <li key={p}>• {p}</li>
+        {/* Write-up */}
+        <section className="mt-12">
+          <h2 className="text-2xl font-semibold tracking-tight">Overview</h2>
+          <div className="mt-5 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-sm px-7 py-6 space-y-3">
+            {project.highlights.map((point, i) => (
+              <p key={i} className="flex gap-3 text-base text-zinc-200 leading-relaxed">
+                <span className="mt-1 shrink-0 text-indigo-400">▸</span>
+                {point}
+              </p>
             ))}
-          </ul>
+          </div>
         </section>
 
-        {/* Pairs as sections */}
-        <section className="mt-14 space-y-10">
-          {project.pairs.map((pair) => (
-            <div key={pair.label}>
-              <h2 className="text-2xl font-semibold">{pair.label}</h2>
+        {/* Image pairs */}
+        <section className="mt-14 space-y-12">
+          {project.pairs.map((pair, i) => (
+            <div key={i}>
+              {pair.label && (
+                <h2 className="text-2xl font-semibold tracking-tight mb-5">{pair.label}</h2>
+              )}
 
-              <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <ImageTile
                   label="Schematic"
                   src={pair.left.src}
@@ -132,7 +155,7 @@ export default function ProjectSlugPage() {
                   bg={pair.left.bg ?? "light"}
                   onClick={() =>
                     openImage({
-                      title: `${project.title} — ${pair.label} (Schematic)`,
+                      title: `${project.title}${pair.label ? ` — ${pair.label}` : ""} (Schematic)`,
                       src: pair.left.src,
                       alt: pair.left.alt,
                       bg: pair.left.bg ?? "light",
@@ -147,7 +170,7 @@ export default function ProjectSlugPage() {
                   bg={pair.right.bg ?? "dark"}
                   onClick={() =>
                     openImage({
-                      title: `${project.title} — ${pair.label} (Top)`,
+                      title: `${project.title}${pair.label ? ` — ${pair.label}` : ""} (Top)`,
                       src: pair.right.src,
                       alt: pair.right.alt,
                       bg: pair.right.bg ?? "dark",
@@ -159,7 +182,7 @@ export default function ProjectSlugPage() {
           ))}
         </section>
 
-        <footer className="mt-20 border-t border-white/10 pt-8 text-sm text-zinc-500">
+        <footer className="mt-24 border-t border-white/10 pt-8 text-sm text-zinc-500">
           © 2026 Arnav Gupta — built with Next.js + TypeScript
         </footer>
       </main>

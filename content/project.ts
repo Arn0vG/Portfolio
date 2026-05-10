@@ -13,7 +13,7 @@ export type ImagePair = {
 };
 
 export type Project = {
-  slug: "drone" | "ethernet" | "usb";
+  slug: "bmu" | "drone" | "ethernet" | "usb";
   title: string;
   subtitle: string;
   tags: string[];
@@ -23,10 +23,10 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-      slug: "ethernet",
-      title: "High Power Battery Managment/Leveling/Monitoring System with Power distribution",
+      slug: "bmu",
+      title: "High Power Battery Management/Leveling/Monitoring System with Power Distribution",
       subtitle:
-        "High Power (220+ Amps) Battery Management System with integrated power distribution and monitoring, designed for UAARG (University of Alberta Arial Robotics Group).",
+        "High Power (220+ Amps) Battery Management System with integrated power distribution and monitoring, designed for UAARG (University of Alberta Aerial Robotics Group).",
       tags: ["High Power", "LTspice", "Altium", "C++"],
       highlights: [
         "Design takes in up to 4 6s LiPo batteries and outputs a 25.2V bus for powering a high-power drone, with integrated battery management features including cell balancing, overcurrent protection, and real-time monitoring.",
