@@ -275,6 +275,13 @@ export default function Home() {
               {!subtitle.done && subtitle.out.length > 0 && <Cursor />}
             </p>
 
+            {/* Bio — fades in after hero types out */}
+            <p className="max-w-2xl text-base text-zinc-400 leading-relaxed" style={contactStyle}>
+              I design hardware — from PCBs and power systems to embedded firmware. Currently interning at{" "}
+              <span className="text-zinc-200">Geoanalysis Engineering</span> and building UAV electronics for{" "}
+              <span className="text-zinc-200">UAARG</span> and <span className="text-zinc-200">ARVP</span>.
+            </p>
+
             {/* Interests — appears after hero is done */}
             <p className="text-lg text-zinc-300 min-h-[1.75rem]" style={contactStyle}>
               {interestStarted && (
