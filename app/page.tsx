@@ -163,17 +163,6 @@ const experiences = [
       "Developed embedded firmware for CAN messaging, sensor acquisition (Hall-effect and temperature), and payload communication",
     ],
   },
-  {
-    role: "Lead Designer",
-    org: "Golf Sim",
-    period: "Sep 2022 — Sep 2024",
-    tags: ["AutoCAD", "SolidWorks", "System Integration"],
-    current: false,
-    bullets: [
-      "Early member of a startup that scaled to $2M+ in revenue over three years",
-      "Designed custom golf simulator systems and high-impact absorption panels using AutoCAD and SolidWorks",
-    ],
-  },
 ];
 
 // ── Page ───────────────────────────────────────────────────────────────────────
