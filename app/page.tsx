@@ -276,9 +276,11 @@ export default function Home() {
             </p>
 
             {/* Bio — fades in after hero types out */}
-            <p className="max-w-2xl text-base text-zinc-400 leading-relaxed" style={contactStyle}>
-              I&apos;m Arnav Gupta, a Mechatronics &amp; Robotics Engineering student at the University of Alberta. I design hardware, from PCBs and power systems to embedded firmware. Currently interning at Geoanalysis Engineering and building UAV electronics for UAARG and ARVP.
-            </p>
+            <div className="max-w-2xl border-l-2 border-indigo-500/50 pl-4" style={contactStyle}>
+              <p className="text-base text-zinc-200 leading-relaxed">
+                I&apos;m Arnav Gupta, a Mechatronics &amp; Robotics Engineering student at the University of Alberta. I design hardware, from PCBs and power systems to embedded firmware. Currently interning at Geoanalysis Engineering and building UAV electronics for UAARG and ARVP.
+              </p>
+            </div>
 
             {/* Interests — appears after hero is done */}
             <p className="text-lg text-zinc-300 min-h-[1.75rem]" style={contactStyle}>
