@@ -8,6 +8,7 @@ import { projects } from "../../../content/project";
 import { ImageLightbox } from "../../../components/ImageLightbox";
 import { CleanDiagonalBackground } from "../../../components/CleanDiagonalBackground";
 import { Nav } from "../../../components/Nav";
+import { RevealSection } from "../../../components/RevealSection";
 
 type LightboxState = {
   open: boolean;
@@ -101,7 +102,7 @@ export default function ProjectSlugPage() {
         </Link>
 
         {/* Header */}
-        <div className="mt-8">
+        <RevealSection className="mt-8" delay={60}>
           <div className="flex items-center gap-4 mb-3">
             <span className="font-mono text-xs text-indigo-400/70 tracking-widest">// project</span>
             <div className="flex-1 h-px bg-white/[0.06]" />
@@ -124,10 +125,10 @@ export default function ProjectSlugPage() {
               </span>
             ))}
           </div>
-        </div>
+        </RevealSection>
 
         {/* Overview */}
-        <section className="mt-14">
+        <RevealSection className="mt-14" delay={160}>
           <div className="flex items-center gap-4 mb-4">
             <span className="font-mono text-xs text-indigo-400/70 tracking-widest">// overview</span>
             <div className="flex-1 h-px bg-white/[0.06]" />
@@ -142,12 +143,12 @@ export default function ProjectSlugPage() {
               </p>
             ))}
           </div>
-        </section>
+        </RevealSection>
 
         {/* Image pairs */}
         <section className="mt-14 space-y-12">
           {project.pairs.map((pair, i) => (
-            <div key={i}>
+            <RevealSection key={i} delay={i * 100}>
               {pair.label && (
                 <div className="flex items-center gap-4 mb-5">
                   <h2 className="text-xl font-semibold text-zinc-100">{pair.label}</h2>
@@ -185,7 +186,7 @@ export default function ProjectSlugPage() {
                   }
                 />
               </div>
-            </div>
+            </RevealSection>
           ))}
         </section>
 

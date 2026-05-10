@@ -5,8 +5,13 @@ import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/project";
 import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
 import { Nav } from "../components/Nav";
+import { RevealSection } from "../components/RevealSection";
 
 type Phase = "typing" | "holding" | "deleting";
+
+function fadeUp(delay: number): React.CSSProperties {
+  return { animation: `fadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms both` };
+}
 
 function SectionLabel({ text }: { text: string }) {
   return (
@@ -67,7 +72,7 @@ function IconPin(props: { className?: string }) {
 const skillCategories = [
   {
     label: "Hardware & Design",
-    pills: ["PCB Design", "ASIC Design", "Embedded Hardware", "RF Control", "PWM", "Motor Control", "High-Speed Routing", "PCB Simulation", "Soldering", "3D Modelling"],
+    pills: ["PCB Design", "ASIC Design", "Embedded Hardware", "Power Systems", "RF Control", "PWM", "Motor Control", "High-Speed Routing", "PCB Simulation", "Soldering", "3D Modelling"],
   },
   {
     label: "Tools",
@@ -75,11 +80,61 @@ const skillCategories = [
   },
   {
     label: "Languages",
-    pills: ["C/C++", "Python", "Java", "TypeScript", "MATLAB"],
+    pills: ["C/C++", "Python", "Java", "TypeScript", "MATLAB", "C#"],
   },
   {
     label: "HDLs",
     pills: ["Verilog", "SystemVerilog", "VHDL"],
+  },
+];
+
+const experiences = [
+  {
+    role: "Hardware Design Engineering Intern",
+    org: "Geoanalysis Engineering",
+    period: "2025 — Present",
+    location: "Edmonton, AB",
+    tags: ["Altium Designer", "PCB Design", "Embedded Hardware", "Instrumentation"],
+    current: true,
+    bullets: [],
+  },
+  {
+    role: "Electrical Member",
+    org: "UAARG — University of Alberta Aerial Robotics Group",
+    period: "Feb 2026 — Present",
+    location: "Edmonton, AB",
+    tags: ["Altium", "STM32", "BQ76952", "Battery Management", "CAN Bus"],
+    current: true,
+    bullets: [
+      "Individually designed a 25.2V high-current UAV power distribution and battery management PCB integrating four 6S LiPo packs into a unified bus supporting up to 220A",
+      "Implementing battery monitoring using the BQ76952 IC and STM32G474 MCU for pack-level voltage sensing, cell balancing, and CAN-based telemetry",
+      "Engineered busbar routing for low IR drop with hardware-level reverse polarity and short-circuit protection",
+    ],
+  },
+  {
+    role: "Electrical Division Member",
+    org: "ARVP — Autonomous Robotic Vehicle Project",
+    period: "Sep 2025 — Present",
+    location: "Edmonton, AB",
+    tags: ["Teensy 4.0", "CAN", "I²C", "UART", "LTspice", "Firmware"],
+    current: true,
+    bullets: [
+      "Designed, simulated, and validated a Teensy 4.0-based embedded interface board integrating CAN, I²C, and UART with analog signal conditioning and ADC front-end design for a high-noise submerged environment",
+      "Designed and simulated analog low-pass filters in LTspice to condition sensor signals before ADC sampling",
+      "Developed embedded firmware for CAN messaging, sensor acquisition (Hall-effect and temperature), and payload communication",
+    ],
+  },
+  {
+    role: "Lead Designer",
+    org: "Golf Sim",
+    period: "Sep 2022 — Sep 2024",
+    location: "Calgary, AB",
+    tags: ["AutoCAD", "SolidWorks", "System Integration"],
+    current: false,
+    bullets: [
+      "Early member of a startup that scaled to $2M+ in revenue over three years",
+      "Designed custom golf simulator systems and high-impact absorption panels using AutoCAD and SolidWorks",
+    ],
   },
 ];
 
@@ -111,7 +166,6 @@ export default function Home() {
         }
       }
     }, phase === "typing" ? 70 : phase === "deleting" ? 45 : 1100);
-
     return () => window.clearTimeout(timer);
   }, [idx, phase, text, interests]);
 
@@ -119,7 +173,6 @@ export default function Home() {
     <div className="relative min-h-screen bg-[#05050f] text-zinc-100 overflow-hidden">
       <Nav />
 
-      {/* BACKGROUND */}
       <div className="pointer-events-none absolute inset-0">
         <CleanDiagonalBackground className="absolute inset-0" />
       </div>
@@ -129,25 +182,29 @@ export default function Home() {
         {/* ── HERO ── */}
         <header className="space-y-8">
           <div className="space-y-4">
-            <p className="font-mono text-sm text-indigo-400/80 tracking-widest">hello, world —</p>
+            <p className="font-mono text-sm text-indigo-400/80 tracking-widest" style={fadeUp(80)}>
+              hello, world —
+            </p>
 
-            <h1 className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl bg-gradient-to-br from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+            <h1
+              className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl bg-gradient-to-br from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent"
+              style={fadeUp(180)}
+            >
               Arnav Gupta
             </h1>
 
-            {/* Current role badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-sm text-green-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-              Hardware Design Engineering Intern · Geoanalysis Engineering
+            <div style={fadeUp(280)}>
+              <div className="inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-sm text-green-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+                Hardware Design Engineering Intern @ Geoanalysis Engineering
+              </div>
             </div>
 
-            <p className="text-lg text-zinc-400 max-w-xl leading-relaxed">
-              Second-Year Mechatronics & Robotics Engineering Co-op Student
-              <span className="text-zinc-600"> — </span>
-              University of Alberta
+            <p className="text-base text-zinc-400 whitespace-nowrap" style={fadeUp(360)}>
+              Third-Year Mechatronics &amp; Robotics Engineering Co-op · University of Alberta
             </p>
 
-            <p className="text-lg text-zinc-300">
+            <p className="text-lg text-zinc-300" style={fadeUp(440)}>
               Interests:{" "}
               <span className="font-semibold text-white">
                 {text}
@@ -157,7 +214,7 @@ export default function Home() {
           </div>
 
           {/* Contact */}
-          <div className="flex flex-wrap gap-3 text-sm" id="contact">
+          <div className="flex flex-wrap gap-3 text-sm" id="contact" style={fadeUp(540)}>
             <a
               href="mailto:arnav207@gmail.com"
               className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition"
@@ -201,119 +258,96 @@ export default function Home() {
           </div>
         </header>
 
-        {/* ── STATS ── */}
-        <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[
-            { value: "220+", unit: "A", label: "Peak current designed for" },
-            { value: "4", unit: "", label: "PCB designs completed" },
-            { value: "6", unit: "-Layer", label: "Most complex board" },
-            { value: "1+", unit: " Gbps", label: "High-speed routing" },
-          ].map((s) => (
-            <div
-              key={s.label}
-              className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-5 py-4 text-center"
-            >
-              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent" />
-              <p className="text-2xl font-bold text-white tabular-nums">
-                {s.value}
-                <span className="text-base font-semibold text-indigo-400">{s.unit}</span>
-              </p>
-              <p className="mt-1 text-xs text-zinc-600">{s.label}</p>
-            </div>
-          ))}
-        </div>
-
         {/* ── EXPERIENCE ── */}
-        <section className="mt-28 scroll-mt-20" id="experience">
+        <RevealSection className="mt-32 scroll-mt-20" id="experience">
           <SectionLabel text="experience" />
           <h2 className="text-4xl font-bold tracking-tight">Experience</h2>
 
-          <div className="mt-8 space-y-4">
-            {[
-              {
-                role: "Hardware Design Engineering Intern",
-                org: "Geoanalysis Engineering",
-                period: "2025 — Present",
-                tags: ["Altium Designer", "PCB Design", "Embedded Hardware", "Instrumentation"],
-                current: true,
-              },
-              {
-                role: "Mechatronics & Robotics Engineering Co-op",
-                org: "University of Alberta",
-                period: "2024 — Present",
-                tags: ["Mechatronics", "Robotics", "Co-op Program"],
-                current: false,
-              },
-            ].map((exp) => (
-              <div
-                key={exp.org}
-                className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-7 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 transition hover:border-white/[0.11]"
-              >
-                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/70 via-indigo-500/30 to-transparent" />
+          {/* Timeline */}
+          <div className="relative mt-10">
+            {/* Vertical track */}
+            <div className="absolute left-[7px] top-1 w-px bg-gradient-to-b from-indigo-500/60 via-white/[0.08] to-transparent" style={{ bottom: "2rem" }} />
 
-                <div>
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <h3 className="text-base font-semibold text-zinc-100">{exp.role}</h3>
-                    {exp.current && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/25 bg-green-500/10 px-2.5 py-0.5 text-xs text-green-400">
-                        <span className="h-1 w-1 rounded-full bg-green-400 animate-pulse" />
-                        Current
-                      </span>
+            <div className="space-y-6">
+              {experiences.map((exp, i) => (
+                <RevealSection key={exp.org} delay={i * 80} className="relative pl-10">
+                  {/* Timeline dot */}
+                  <div
+                    className={`absolute left-0 top-[22px] h-[15px] w-[15px] rounded-full border-2 bg-[#05050f] ${
+                      exp.current ? "border-indigo-400 shadow-[0_0_8px_rgba(99,102,241,0.5)]" : "border-white/20"
+                    }`}
+                  />
+
+                  <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-6 py-5 transition hover:border-white/[0.12]">
+                    <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/60 via-indigo-500/20 to-transparent" />
+
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
+                      <div>
+                        <div className="flex items-center gap-3 flex-wrap">
+                          <h3 className="text-base font-semibold text-zinc-100">{exp.role}</h3>
+                          {exp.current && (
+                            <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/25 bg-green-500/10 px-2.5 py-0.5 text-xs text-green-400">
+                              <span className="h-1 w-1 rounded-full bg-green-400 animate-pulse" />
+                              Current
+                            </span>
+                          )}
+                        </div>
+                        <p className="mt-0.5 text-sm text-zinc-500">{exp.org}</p>
+                      </div>
+                      <span className="shrink-0 font-mono text-xs text-zinc-600 sm:pt-0.5">{exp.period}</span>
+                    </div>
+
+                    {exp.bullets.length > 0 && (
+                      <ul className="mt-4 space-y-2">
+                        {exp.bullets.map((b, j) => (
+                          <li key={j} className="flex gap-2.5 text-sm text-zinc-400 leading-relaxed">
+                            <span className="mt-1 shrink-0 text-indigo-500/60">▸</span>
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
                     )}
-                  </div>
-                  <p className="mt-1 text-sm text-zinc-500">{exp.org}</p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {exp.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-md border border-white/[0.07] bg-white/[0.02] px-2.5 py-1 text-xs text-zinc-400"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </div>
 
-                <span className="shrink-0 font-mono text-xs text-zinc-600 sm:text-right">
-                  {exp.period}
-                </span>
-              </div>
-            ))}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {exp.tags.map((t) => (
+                        <span key={t} className="rounded-md border border-white/[0.07] bg-white/[0.02] px-2.5 py-1 text-xs text-zinc-400">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </RevealSection>
+              ))}
+            </div>
           </div>
-        </section>
+        </RevealSection>
 
         {/* ── SKILLS ── */}
-        <section className="mt-28 scroll-mt-20" id="skills">
+        <RevealSection className="mt-28 scroll-mt-20" id="skills">
           <SectionLabel text="skills" />
           <h2 className="text-4xl font-bold tracking-tight">Skills</h2>
 
           <div className="mt-8 space-y-3">
-            {skillCategories.map((cat) => (
-              <div
-                key={cat.label}
-                className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-7 py-5 transition hover:border-white/[0.11]"
-              >
-                <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/70 via-indigo-500/30 to-transparent" />
-                <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.15em] text-indigo-400/70">
-                  {cat.label}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {cat.pills.map((pill) => (
-                    <span
-                      key={pill}
-                      className="rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-sm text-zinc-300"
-                    >
-                      {pill}
-                    </span>
-                  ))}
+            {skillCategories.map((cat, i) => (
+              <RevealSection key={cat.label} delay={i * 60}>
+                <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-7 py-5 transition hover:border-white/[0.11]">
+                  <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/70 via-indigo-500/30 to-transparent" />
+                  <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.15em] text-indigo-400/70">{cat.label}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {cat.pills.map((pill) => (
+                      <span key={pill} className="rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-sm text-zinc-300">
+                        {pill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </RevealSection>
             ))}
           </div>
-        </section>
+        </RevealSection>
 
         {/* ── PROJECTS ── */}
-        <section className="mt-32 scroll-mt-20" id="projects">
+        <RevealSection className="mt-28 scroll-mt-20" id="projects">
           <SectionLabel text="projects" />
           <h2 className="text-4xl font-bold tracking-tight">Projects</h2>
           <p className="mt-3 text-zinc-500 max-w-2xl">
@@ -322,10 +356,12 @@ export default function Home() {
 
           <div className="mt-10 space-y-8">
             {projects.map((project, i) => (
-              <ProjectCard key={project.title} project={project} index={i} />
+              <RevealSection key={project.title} delay={i * 80}>
+                <ProjectCard project={project} index={i} />
+              </RevealSection>
             ))}
           </div>
-        </section>
+        </RevealSection>
 
         <footer className="mt-32 border-t border-white/[0.06] pt-10 flex items-center justify-between text-sm text-zinc-600">
           <span>© 2026 Arnav Gupta</span>
