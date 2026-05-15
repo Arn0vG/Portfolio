@@ -41,7 +41,7 @@ export default function OGImage() {
             width: 700,
             height: 700,
             background:
-              "radial-gradient(circle, rgba(99,102,241,0.28) 0%, transparent 65%)",
+              "radial-gradient(circle, rgba(16,185,129,0.28) 0%, transparent 65%)",
             borderRadius: "50%",
           }}
         />
@@ -55,14 +55,14 @@ export default function OGImage() {
             width: 600,
             height: 600,
             background:
-              "radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 65%)",
+              "radial-gradient(circle, rgba(5,150,105,0.18) 0%, transparent 65%)",
             borderRadius: "50%",
           }}
         />
 
         {/* Content */}
         <div style={{ display: "flex", flexDirection: "column", gap: 0, position: "relative" }}>
-          <p style={{ color: "#818cf8", fontSize: 22, margin: 0, marginBottom: 18, fontFamily: "monospace", letterSpacing: "0.12em" }}>
+          <p style={{ color: "#34d399", fontSize: 22, margin: 0, marginBottom: 18, fontFamily: "monospace", letterSpacing: "0.12em" }}>
             // portfolio
           </p>
 
@@ -98,11 +98,11 @@ export default function OGImage() {
               <div
                 key={tag}
                 style={{
-                  border: "1px solid rgba(99,102,241,0.3)",
-                  background: "rgba(99,102,241,0.08)",
+                  border: "1px solid rgba(16,185,129,0.3)",
+                  background: "rgba(16,185,129,0.08)",
                   borderRadius: 8,
                   padding: "8px 18px",
-                  color: "#818cf8",
+                  color: "#34d399",
                   fontSize: 20,
                 }}
               >

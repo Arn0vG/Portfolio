@@ -53,7 +53,7 @@ export function Nav() {
             >
               {item.label}
               {active === item.id && (
-                <span className="block h-px w-full bg-indigo-500 mt-0.5 rounded-full" />
+                <span className="block h-px w-full bg-emerald-500 mt-0.5 rounded-full" />
               )}
             </a>
           ))}

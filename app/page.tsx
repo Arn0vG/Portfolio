@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/project";
 import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
-import { PCBTraces } from "../components/PCBTraces";
+import { WaveformBackground } from "../components/WaveformBackground";
 import { Nav } from "../components/Nav";
 import { RevealSection } from "../components/RevealSection";
 
@@ -57,7 +57,7 @@ function Cursor() {
   return (
     <span
       aria-hidden="true"
-      className="ml-0.5 inline-block w-[2px] align-middle bg-indigo-400/70 animate-pulse"
+      className="ml-0.5 inline-block w-[2px] align-middle bg-emerald-400/70 animate-pulse"
       style={{ height: "0.85em" }}
     />
   );
@@ -68,7 +68,7 @@ type Phase = "typing" | "holding" | "deleting";
 function SectionLabel({ text }: { text: string }) {
   return (
     <div className="flex items-center gap-4 mb-4">
-      <span className="font-mono text-xs text-indigo-400/70 tracking-widest">// {text}</span>
+      <span className="font-mono text-xs text-emerald-400/70 tracking-widest">// {text}</span>
       <div className="flex-1 h-px bg-white/[0.06]" />
     </div>
   );
@@ -228,7 +228,7 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-0">
         <CleanDiagonalBackground className="absolute inset-0" />
       </div>
-      <PCBTraces />
+      <WaveformBackground />
 
       {/* ── HERO (full-screen landing) ── */}
       <section className="relative flex min-h-screen flex-col items-center justify-center text-center px-6 pt-14">
@@ -241,25 +241,26 @@ export default function Home() {
               className="absolute inset-0 rounded-full animate-spin"
               style={{
                 animationDuration: "9s",
-                background: "conic-gradient(from 0deg, rgba(99,102,241,0.9), rgba(139,92,246,0.6), rgba(99,102,241,0.1), rgba(99,102,241,0.9))",
+                background: "conic-gradient(from 0deg, rgba(16,185,129,0.9), rgba(5,150,105,0.6), rgba(16,185,129,0.1), rgba(16,185,129,0.9))",
               }}
             />
             {/* Inner dark circle */}
             <div className="absolute inset-[2px] rounded-full bg-[#05050f] flex items-center justify-center">
-              <span className="font-bold text-xl tracking-wider text-indigo-300 select-none">AG</span>
+              <span className="font-bold text-xl tracking-wider text-emerald-300 select-none">AG</span>
             </div>
           </div>
           {/* Ambient glow beneath */}
-          <div className="absolute inset-0 -z-10 scale-[2] rounded-full bg-indigo-500/10 blur-2xl" />
+          <div className="absolute inset-0 -z-10 scale-[2] rounded-full bg-emerald-500/10 blur-2xl" />
         </div>
 
         {/* Typewriter content */}
         <div className="space-y-4 max-w-3xl w-full">
 
           {/* Annotation */}
-          <p className="font-mono text-sm text-indigo-400/80 tracking-widest min-h-[1.5rem]">
+          <p className="font-mono text-sm text-emerald-400/80 tracking-widest min-h-[1.5rem]">
             {label.out}{!label.done && <Cursor />}
           </p>
+
 
           {/* Name */}
           <h1 className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl min-h-[1.2em]">
@@ -285,7 +286,7 @@ export default function Home() {
           </p>
 
           {/* Bio */}
-          <div className="mx-auto max-w-2xl border-l-2 border-indigo-500/50 pl-4 text-left" style={contactStyle}>
+          <div className="mx-auto max-w-2xl border-l-2 border-emerald-500/50 pl-4 text-left" style={contactStyle}>
             <p className="text-base text-zinc-200 leading-relaxed">
               I&apos;m Arnav Gupta, a Mechatronics &amp; Robotics Engineering student at the University of Alberta. I design hardware, from PCBs and power systems to embedded firmware. Currently interning at Geoanalysis Engineering and building UAV electronics for UAARG and ARVP.
             </p>
@@ -297,7 +298,7 @@ export default function Home() {
               <>Interests:{" "}
                 <span className="font-semibold text-white">
                   {interestText}
-                  <span className="ml-0.5 inline-block h-5 w-[2px] translate-y-[3px] bg-indigo-400/80 animate-pulse" />
+                  <span className="ml-0.5 inline-block h-5 w-[2px] translate-y-[3px] bg-emerald-400/80 animate-pulse" />
                 </span>
               </>
             )}
@@ -344,13 +345,13 @@ export default function Home() {
           <h2 className="text-4xl font-bold tracking-tight">Experience</h2>
 
           <div className="relative mt-10">
-            <div className="absolute left-[7px] top-1 w-px bg-gradient-to-b from-indigo-500/60 via-white/[0.08] to-transparent" style={{ bottom: "2rem" }} />
+            <div className="absolute left-[7px] top-1 w-px bg-gradient-to-b from-emerald-500/60 via-white/[0.08] to-transparent" style={{ bottom: "2rem" }} />
             <div className="space-y-6">
               {experiences.map((exp, i) => (
                 <RevealSection key={exp.org} delay={i * 80} className="relative pl-10">
-                  <div className={`absolute left-0 top-[22px] h-[15px] w-[15px] rounded-full border-2 bg-[#05050f] ${exp.current ? "border-indigo-400 shadow-[0_0_8px_rgba(99,102,241,0.5)]" : "border-white/20"}`} />
+                  <div className={`absolute left-0 top-[22px] h-[15px] w-[15px] rounded-full border-2 bg-[#05050f] ${exp.current ? "border-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.5)]" : "border-white/20"}`} />
                   <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-6 py-5 transition hover:border-white/[0.12]">
-                    <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/60 via-indigo-500/20 to-transparent" />
+                    <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-emerald-500/60 via-emerald-500/20 to-transparent" />
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
                       <div>
                         <div className="flex items-center gap-3 flex-wrap">
@@ -369,7 +370,7 @@ export default function Home() {
                       <ul className="mt-4 space-y-2">
                         {exp.bullets.map((b, j) => (
                           <li key={j} className="flex gap-2.5 text-sm text-zinc-400 leading-relaxed">
-                            <span className="mt-1 shrink-0 text-indigo-500/60">▸</span>{b}
+                            <span className="mt-1 shrink-0 text-emerald-500/60">▸</span>{b}
                           </li>
                         ))}
                       </ul>
@@ -394,8 +395,8 @@ export default function Home() {
             {skillCategories.map((cat, i) => (
               <RevealSection key={cat.label} delay={i * 60}>
                 <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-7 py-5 transition hover:border-white/[0.11]">
-                  <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/70 via-indigo-500/30 to-transparent" />
-                  <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.15em] text-indigo-400/70">{cat.label}</p>
+                  <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-emerald-500/70 via-emerald-500/30 to-transparent" />
+                  <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.15em] text-emerald-400/70">{cat.label}</p>
                   <div className="flex flex-wrap gap-2">
                     {cat.pills.map((pill) => (
                       <span key={pill} className="rounded-md border border-white/[0.08] bg-white/[0.03] px-3 py-1.5 text-sm text-zinc-300">{pill}</span>

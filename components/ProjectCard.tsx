@@ -28,7 +28,7 @@ export function ProjectCard({ project, index }: Props) {
     <>
       <article className="signal-packet group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.02] transition-all duration-300 hover:border-white/[0.13] hover:bg-white/[0.035]">
         {/* Subtle top border glow on hover */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         {/* Project number */}
         <span className="absolute top-5 right-6 font-mono text-xs text-zinc-700 select-none">
@@ -132,7 +132,7 @@ export function ProjectCard({ project, index }: Props) {
               <ul className="mt-5 space-y-2.5">
                 {project.highlights.map((point, i) => (
                   <li key={i} className="flex gap-2.5 text-sm text-zinc-400 leading-relaxed">
-                    <span className="mt-1 shrink-0 text-indigo-500/70">▸</span>
+                    <span className="mt-1 shrink-0 text-emerald-500/70">▸</span>
                     {point}
                   </li>
                 ))}
@@ -141,7 +141,7 @@ export function ProjectCard({ project, index }: Props) {
 
             <Link
               href={`/projects/${project.slug}`}
-              className="mt-7 self-start inline-flex items-center gap-1.5 text-sm text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+              className="mt-7 self-start inline-flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
             >
               View full project
               <span className="text-base leading-none">→</span>

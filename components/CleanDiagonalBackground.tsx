@@ -18,9 +18,9 @@ export function CleanDiagonalBackground({ className }: { className?: string }) {
       <div className="absolute inset-0 bg-[#05050f]" />
 
       {/* Aurora blobs */}
-      <div className="absolute -top-[20%] -left-[10%] h-[700px] w-[700px] rounded-full bg-indigo-600/20 blur-[140px]" />
-      <div className="absolute top-[5%] -right-[15%] h-[580px] w-[580px] rounded-full bg-violet-700/15 blur-[130px]" />
-      <div className="absolute bottom-[0%] left-[20%] h-[500px] w-[800px] rounded-full bg-cyan-600/[0.07] blur-[140px]" />
+      <div className="absolute -top-[20%] -left-[10%] h-[700px] w-[700px] rounded-full bg-emerald-600/18 blur-[140px]" />
+      <div className="absolute top-[5%] -right-[15%] h-[580px] w-[580px] rounded-full bg-green-700/12 blur-[130px]" />
+      <div className="absolute bottom-[0%] left-[20%] h-[500px] w-[800px] rounded-full bg-teal-600/[0.06] blur-[140px]" />
 
       {/* Dim grid — always visible, very subtle */}
       <div
@@ -39,8 +39,8 @@ export function CleanDiagonalBackground({ className }: { className?: string }) {
         className="fixed inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(99,102,241,0.28) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(99,102,241,0.28) 1px, transparent 1px)
+            linear-gradient(rgba(16,185,129,0.22) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(16,185,129,0.22) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
           WebkitMaskImage:

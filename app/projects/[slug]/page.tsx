@@ -76,7 +76,7 @@ export default function ProjectSlugPage() {
         <Nav />
         <main className="mx-auto max-w-4xl px-8 py-32">
           <p className="text-zinc-500">Project not found.</p>
-          <Link href="/#projects" className="mt-6 inline-block text-sm text-indigo-400 hover:text-indigo-300 transition">
+          <Link href="/#projects" className="mt-6 inline-block text-sm text-emerald-400 hover:text-emerald-300 transition">
             ← Back to Projects
           </Link>
         </main>
@@ -104,7 +104,7 @@ export default function ProjectSlugPage() {
         {/* Header */}
         <RevealSection className="mt-8" delay={60}>
           <div className="flex items-center gap-4 mb-3">
-            <span className="font-mono text-xs text-indigo-400/70 tracking-widest">// project</span>
+            <span className="font-mono text-xs text-emerald-400/70 tracking-widest">// project</span>
             <div className="flex-1 h-px bg-white/[0.06]" />
           </div>
 
@@ -130,15 +130,15 @@ export default function ProjectSlugPage() {
         {/* Overview */}
         <RevealSection className="mt-14" delay={160}>
           <div className="flex items-center gap-4 mb-4">
-            <span className="font-mono text-xs text-indigo-400/70 tracking-widest">// overview</span>
+            <span className="font-mono text-xs text-emerald-400/70 tracking-widest">// overview</span>
             <div className="flex-1 h-px bg-white/[0.06]" />
           </div>
 
           <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.02] px-7 py-6 space-y-4">
-            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-indigo-500/70 via-indigo-500/30 to-transparent" />
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gradient-to-b from-emerald-500/70 via-emerald-500/30 to-transparent" />
             {project.highlights.map((point, i) => (
               <p key={i} className="flex gap-3 text-sm text-zinc-300 leading-relaxed">
-                <span className="mt-0.5 shrink-0 text-indigo-500/70">▸</span>
+                <span className="mt-0.5 shrink-0 text-emerald-500/70">▸</span>
                 {point}
               </p>
             ))}
