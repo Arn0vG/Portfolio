@@ -22,31 +22,56 @@ export function CleanDiagonalBackground({ className }: { className?: string }) {
       <div className="absolute top-[5%] -right-[15%] h-[580px] w-[580px] rounded-full bg-green-700/12 blur-[130px]" />
       <div className="absolute bottom-[0%] left-[20%] h-[500px] w-[800px] rounded-full bg-teal-600/[0.06] blur-[140px]" />
 
-      {/* Dim grid — always visible, very subtle */}
+      {/* Dim base grid — always visible, very subtle */}
       <div
         className="absolute inset-0"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
         }}
       />
 
-      {/* Lit grid — revealed near cursor via mask. Fixed so coords match clientX/Y */}
+      {/* ── Cursor-reactive layers (fixed so clientX/Y coords align) ── */}
+
+      {/* Layer 1 — coarse grid, widest reveal (halo effect) */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(16,185,129,0.22) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(16,185,129,0.22) 1px, transparent 1px)
+            linear-gradient(rgba(16,185,129,0.10) 1.5px, transparent 1.5px),
+            linear-gradient(90deg, rgba(16,185,129,0.10) 1.5px, transparent 1.5px)
+          `,
+          backgroundSize: "120px 120px",
+          WebkitMaskImage: "radial-gradient(480px circle at var(--mx,-999px) var(--my,-999px), black 0%, transparent 100%)",
+          maskImage:       "radial-gradient(480px circle at var(--mx,-999px) var(--my,-999px), black 0%, transparent 100%)",
+        }}
+      />
+
+      {/* Layer 2 — fine grid, medium reveal */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(16,185,129,0.28) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(16,185,129,0.28) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
-          WebkitMaskImage:
-            "radial-gradient(180px circle at var(--mx, -999px) var(--my, -999px), black 0%, transparent 100%)",
-          maskImage:
-            "radial-gradient(180px circle at var(--mx, -999px) var(--my, -999px), black 0%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(260px circle at var(--mx,-999px) var(--my,-999px), black 0%, transparent 100%)",
+          maskImage:       "radial-gradient(260px circle at var(--mx,-999px) var(--my,-999px), black 0%, transparent 100%)",
+        }}
+      />
+
+      {/* Layer 3 — glowing intersection dots, tightest reveal */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(52,211,153,0.75) 1.5px, transparent 1.5px)",
+          backgroundSize: "60px 60px",
+          WebkitMaskImage: "radial-gradient(140px circle at var(--mx,-999px) var(--my,-999px), black 0%, transparent 100%)",
+          maskImage:       "radial-gradient(140px circle at var(--mx,-999px) var(--my,-999px), black 0%, transparent 100%)",
         }}
       />
 

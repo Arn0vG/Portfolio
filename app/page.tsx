@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/project";
 import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
-import { WaveformBackground } from "../components/WaveformBackground";
 import { Nav } from "../components/Nav";
 import { RevealSection } from "../components/RevealSection";
 
@@ -228,7 +227,6 @@ export default function Home() {
       <div className="pointer-events-none absolute inset-0">
         <CleanDiagonalBackground className="absolute inset-0" />
       </div>
-      <WaveformBackground />
 
       {/* ── HERO (full-screen landing) ── */}
       <section className="relative flex min-h-screen flex-col items-center justify-center text-center px-6 pt-14">
