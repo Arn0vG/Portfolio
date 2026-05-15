@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import { ProjectCard } from "../components/ProjectCard";
 import { projects } from "../content/project";
 import { CleanDiagonalBackground } from "../components/CleanDiagonalBackground";
+import { PCBTraces } from "../components/PCBTraces";
 import { Nav } from "../components/Nav";
 import { RevealSection } from "../components/RevealSection";
 
@@ -223,90 +224,119 @@ export default function Home() {
     <div className="relative min-h-screen bg-[#05050f] text-zinc-100 overflow-hidden">
       <Nav />
 
+      {/* Background layers */}
       <div className="pointer-events-none absolute inset-0">
         <CleanDiagonalBackground className="absolute inset-0" />
       </div>
+      <PCBTraces />
 
-      <main className="relative mx-auto max-w-6xl px-8 pt-36 pb-24 scroll-smooth" id="top">
+      {/* ── HERO (full-screen landing) ── */}
+      <section className="relative flex min-h-screen flex-col items-center justify-center text-center px-6 pt-14">
 
-        {/* ── HERO ── */}
-        <header className="space-y-8">
-          <div className="space-y-4">
-
-            {/* Annotation */}
-            <p className="font-mono text-sm text-indigo-400/80 tracking-widest min-h-[1.5rem]">
-              {label.out}
-              {!label.done && <Cursor />}
-            </p>
-
-            {/* Name */}
-            <h1 className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl min-h-[1.2em]">
-              <span className="bg-gradient-to-br from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-                {nameType.out}
-              </span>
-              {!nameType.done && nameType.out.length > 0 && <Cursor />}
-            </h1>
-
-            {/* Badge */}
-            <div className="min-h-[2.25rem] flex items-center">
-              {badge.out.length > 0 && (
-                <div className="inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-sm text-green-400">
-                  <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-                  {badge.out}
-                  {!badge.done && <Cursor />}
-                </div>
-              )}
+        {/* Avatar */}
+        <div className="relative mb-10">
+          <div className="relative h-[88px] w-[88px] mx-auto">
+            {/* Rotating gradient ring */}
+            <div
+              className="absolute inset-0 rounded-full animate-spin"
+              style={{
+                animationDuration: "9s",
+                background: "conic-gradient(from 0deg, rgba(99,102,241,0.9), rgba(139,92,246,0.6), rgba(99,102,241,0.1), rgba(99,102,241,0.9))",
+              }}
+            />
+            {/* Inner dark circle */}
+            <div className="absolute inset-[2px] rounded-full bg-[#05050f] flex items-center justify-center">
+              <span className="font-bold text-xl tracking-wider text-indigo-300 select-none">AG</span>
             </div>
-
-            {/* Subtitle */}
-            <p className="text-base text-zinc-400 min-h-[1.5rem] max-w-2xl">
-              {subtitle.out}
-              {!subtitle.done && subtitle.out.length > 0 && <Cursor />}
-            </p>
-
-            {/* Bio — fades in after hero types out */}
-            <div className="max-w-2xl border-l-2 border-indigo-500/50 pl-4" style={contactStyle}>
-              <p className="text-base text-zinc-200 leading-relaxed">
-                I&apos;m Arnav Gupta, a Mechatronics &amp; Robotics Engineering student at the University of Alberta. I design hardware, from PCBs and power systems to embedded firmware. Currently interning at Geoanalysis Engineering and building UAV electronics for UAARG and ARVP.
-              </p>
-            </div>
-
-            {/* Interests — appears after hero is done */}
-            <p className="text-lg text-zinc-300 min-h-[1.75rem]" style={contactStyle}>
-              {interestStarted && (
-                <>
-                  Interests:{" "}
-                  <span className="font-semibold text-white">
-                    {interestText}
-                    <span className="ml-0.5 inline-block h-5 w-[2px] translate-y-[3px] bg-indigo-400/80 animate-pulse" />
-                  </span>
-                </>
-              )}
-            </p>
           </div>
+          {/* Ambient glow beneath */}
+          <div className="absolute inset-0 -z-10 scale-[2] rounded-full bg-indigo-500/10 blur-2xl" />
+        </div>
 
-          {/* Contact */}
-          <div className="flex flex-wrap gap-3 text-sm" id="contact" style={contactStyle}>
-            <a href="mailto:arnav207@gmail.com" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
-              <IconMail className="h-4 w-4" />arnav207@gmail.com
-            </a>
-            <a href="tel:+14038992495" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
-              <IconPhone className="h-4 w-4" />(403) 899-2495
-            </a>
-            <a href="https://www.linkedin.com/in/arnav-gupta121/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
-              <IconLinkedIn className="h-4 w-4" />LinkedIn
-            </a>
-            <a href="https://github.com/arn0vg" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
-              <IconGitHub className="h-4 w-4" />GitHub
-            </a>
-            <a href="/arnav-gupta-portfolio.pdf" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
-              <IconDocument className="h-4 w-4" />Portfolio PDF
-            </a>
-            <span className="inline-flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-2.5 text-zinc-500">
-              <IconPin className="h-4 w-4" />Edmonton, AB
+        {/* Typewriter content */}
+        <div className="space-y-4 max-w-3xl w-full">
+
+          {/* Annotation */}
+          <p className="font-mono text-sm text-indigo-400/80 tracking-widest min-h-[1.5rem]">
+            {label.out}{!label.done && <Cursor />}
+          </p>
+
+          {/* Name */}
+          <h1 className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl min-h-[1.2em]">
+            <span className="bg-gradient-to-br from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+              {nameType.out}
             </span>
+            {!nameType.done && nameType.out.length > 0 && <Cursor />}
+          </h1>
+
+          {/* Badge */}
+          <div className="min-h-[2.25rem] flex items-center justify-center">
+            {badge.out.length > 0 && (
+              <div className="inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-sm text-green-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+                {badge.out}{!badge.done && <Cursor />}
+              </div>
+            )}
           </div>
-        </header>
+
+          {/* Subtitle */}
+          <p className="text-base text-zinc-400 min-h-[1.5rem]">
+            {subtitle.out}{!subtitle.done && subtitle.out.length > 0 && <Cursor />}
+          </p>
+
+          {/* Bio */}
+          <div className="mx-auto max-w-2xl border-l-2 border-indigo-500/50 pl-4 text-left" style={contactStyle}>
+            <p className="text-base text-zinc-200 leading-relaxed">
+              I&apos;m Arnav Gupta, a Mechatronics &amp; Robotics Engineering student at the University of Alberta. I design hardware, from PCBs and power systems to embedded firmware. Currently interning at Geoanalysis Engineering and building UAV electronics for UAARG and ARVP.
+            </p>
+          </div>
+
+          {/* Interests */}
+          <p className="text-lg text-zinc-300 min-h-[1.75rem]" style={contactStyle}>
+            {interestStarted && (
+              <>Interests:{" "}
+                <span className="font-semibold text-white">
+                  {interestText}
+                  <span className="ml-0.5 inline-block h-5 w-[2px] translate-y-[3px] bg-indigo-400/80 animate-pulse" />
+                </span>
+              </>
+            )}
+          </p>
+        </div>
+
+        {/* Contact */}
+        <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm" id="contact" style={contactStyle}>
+          <a href="mailto:arnav207@gmail.com" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+            <IconMail className="h-4 w-4" />arnav207@gmail.com
+          </a>
+          <a href="tel:+14038992495" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+            <IconPhone className="h-4 w-4" />(403) 899-2495
+          </a>
+          <a href="https://www.linkedin.com/in/arnav-gupta121/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+            <IconLinkedIn className="h-4 w-4" />LinkedIn
+          </a>
+          <a href="https://github.com/arn0vg" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+            <IconGitHub className="h-4 w-4" />GitHub
+          </a>
+          <a href="/arnav-gupta-portfolio.pdf" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2.5 text-zinc-300 hover:border-white/20 hover:bg-white/[0.07] hover:text-white transition">
+            <IconDocument className="h-4 w-4" />Portfolio PDF
+          </a>
+          <span className="inline-flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.02] px-4 py-2.5 text-zinc-500">
+            <IconPin className="h-4 w-4" />Edmonton, AB
+          </span>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 flex flex-col items-center gap-1.5 text-zinc-600" style={contactStyle}>
+          <span className="font-mono text-[10px] tracking-[0.2em] uppercase">scroll</span>
+          <svg className="h-4 w-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </section>
+
+      {/* ── SCROLLABLE CONTENT ── */}
+      <main className="relative mx-auto max-w-6xl px-8 pb-24 scroll-smooth" id="top">
 
         {/* ── EXPERIENCE ── */}
         <RevealSection className="mt-32 scroll-mt-20" id="experience">
