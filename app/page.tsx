@@ -8,13 +8,16 @@ import { Nav } from "../components/Nav";
 import { RevealSection } from "../components/RevealSection";
 
 // ── Timing constants ───────────────────────────────────────────────────────────
-const LABEL_TEXT    = "hello, world, i'm";
+const LABEL_TEXT    = "hello, world,";
+const IM_TEXT       = "i'm";
 const NAME_TEXT     = "Arnav Gupta";
 const BADGE_TEXT    = "Hardware Design Engineering Intern @ Geoanalysis Engineering";
 const SUBTITLE_TEXT = "Third-Year Mechatronics & Robotics Engineering Co-op · University of Alberta";
 
 const LABEL_START  = 300;  const LABEL_SPEED  = 7;
-const NAME_START   = LABEL_START  + LABEL_TEXT.length    * LABEL_SPEED  + 80;
+const IM_START     = LABEL_START  + LABEL_TEXT.length    * LABEL_SPEED  + 60;
+const IM_SPEED     = 7;
+const NAME_START   = IM_START     + IM_TEXT.length       * IM_SPEED     + 80;
 const NAME_SPEED   = 24;
 const BADGE_START  = NAME_START   + NAME_TEXT.length     * NAME_SPEED   + 80;
 const BADGE_SPEED  = 6;
@@ -169,6 +172,7 @@ const experiences = [
 export default function Home() {
   // Sequential hero type-out (each fires once on mount)
   const label    = useTypewriter(LABEL_TEXT,    LABEL_START,  LABEL_SPEED);
+  const im       = useTypewriter(IM_TEXT,       IM_START,     IM_SPEED);
   const nameType = useTypewriter(NAME_TEXT,     NAME_START,   NAME_SPEED);
   const badge    = useTypewriter(BADGE_TEXT,    BADGE_START,  BADGE_SPEED);
   const subtitle = useTypewriter(SUBTITLE_TEXT, SUB_START,    SUB_SPEED);
@@ -259,6 +263,10 @@ export default function Home() {
             {label.out}{!label.done && <Cursor />}
           </p>
 
+          {/* i'm */}
+          <p className="font-mono text-sm text-emerald-400/80 tracking-widest min-h-[1.5rem]">
+            {im.out}{!im.done && im.out.length > 0 && <Cursor />}
+          </p>
 
           {/* Name */}
           <h1 className="text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl min-h-[1.2em]">
