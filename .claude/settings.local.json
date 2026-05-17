@@ -5,7 +5,8 @@
       "Bash(npm run *)",
       "Bash(cmd /c \"cd /d C:\\\\Users\\\\arnav\\\\Portfolio\\\\.claude\\\\worktrees\\\\inspiring-goldwasser-8f6505 && npm run build 2>&1\")",
       "WebFetch(domain:sugoiiia.github.io)",
-      "Bash(./node_modules/.bin/tsc --noEmit)"
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "WebSearch"
     ]
   }
 }

@@ -8,7 +8,7 @@ import { Nav } from "../components/Nav";
 import { RevealSection } from "../components/RevealSection";
 
 // ── Timing constants ───────────────────────────────────────────────────────────
-const LABEL_TEXT    = "hello, world —";
+const LABEL_TEXT    = "hello, world, i'm";
 const NAME_TEXT     = "Arnav Gupta";
 const BADGE_TEXT    = "Hardware Design Engineering Intern @ Geoanalysis Engineering";
 const SUBTITLE_TEXT = "Third-Year Mechatronics & Robotics Engineering Co-op · University of Alberta";
