@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://arnav-gupta.vercel.app"),
   title: "Arnav Gupta — Hardware & Embedded Systems",
   description:
     "Portfolio of Arnav Gupta — Hardware Design Engineering Intern at Geoanalysis Engineering, Mechatronics & Robotics Engineering student at the University of Alberta. PCB design, embedded systems, and high-speed electronics.",
