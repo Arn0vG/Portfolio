@@ -35,6 +35,12 @@ function useTypewriter(text: string, startMs: number, speedMs: number) {
     if (started.current) return;
     started.current = true;
 
+    // Skip the animation entirely for users who prefer reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setOut(text);
+      return;
+    }
+
     let cancelled = false;
     let i = 0;
 
@@ -182,6 +188,11 @@ export default function Home() {
   const [interestStarted, setInterestStarted] = useState(false);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setContactVisible(true);
+      setInterestStarted(true);
+      return;
+    }
     const t1 = window.setTimeout(() => setContactVisible(true), CONTACT_SHOW);
     const t2 = window.setTimeout(() => setInterestStarted(true), INTEREST_START);
     return () => { window.clearTimeout(t1); window.clearTimeout(t2); };
@@ -279,9 +290,9 @@ export default function Home() {
           {/* Badge */}
           <div className="min-h-[2.25rem] flex items-center justify-center">
             {badge.out.length > 0 && (
-              <div className="inline-flex items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-sm text-green-400">
-                <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-                {badge.out}{!badge.done && <Cursor />}
+              <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-xs sm:text-sm text-green-400 text-center">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-400 animate-pulse" />
+                <span>{badge.out}{!badge.done && <Cursor />}</span>
               </div>
             )}
           </div>
@@ -334,12 +345,17 @@ export default function Home() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 flex flex-col items-center gap-1.5 text-zinc-600" style={contactStyle}>
+        <a
+          href="#experience"
+          aria-label="Scroll to experience"
+          className="absolute bottom-8 flex flex-col items-center gap-1.5 text-zinc-600 hover:text-zinc-300 transition-colors"
+          style={contactStyle}
+        >
           <span className="font-mono text-[10px] tracking-[0.2em] uppercase">scroll</span>
           <svg className="h-4 w-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
           </svg>
-        </div>
+        </a>
       </section>
 
       {/* ── SCROLLABLE CONTENT ── */}

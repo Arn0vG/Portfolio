@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
 export const alt = "Arnav Gupta — Hardware & Embedded Systems";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
@@ -80,7 +79,7 @@ export default function OGImage() {
               border: "1px solid rgba(34,197,94,0.25)",
               borderRadius: 100,
               padding: "10px 22px",
-              width: "fit-content",
+              alignSelf: "flex-start",
             }}
           >
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#4ade80" }} />
