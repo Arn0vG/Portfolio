@@ -149,11 +149,6 @@ const experiences = [
     period: "May 2026 — Present",
     tags: ["Altium Designer", "STM32H755", "CAN-FD", "BQ76920", "Functional Safety"],
     current: true,
-    bullets: [
-      "Designed a 6-layer turbine control board for a jetpack in Altium Designer around a dual-core STM32H755BIT6 (Cortex-M7/M4), coordinating up to six turbines over a CAN-FD bus and integrating SPI, I²C, UART, USB-C, and SDMMC with an onboard IMU, barometer, and microSD logging",
-      "Designed an independent redundant safety controller sharing the main CAN-FD bus, monitoring controller health and autonomously taking over turbine control upon fault detection for hardware-level failover on a flight-critical system",
-      "Designed an independent battery-safety and power board using the BQ76920 AFE for autonomous 3S overvoltage, undervoltage, and overcurrent protection, operating fully independently of the main controller firmware",
-    ],
   },
   {
     role: "Hardware Design Engineering Intern",
@@ -161,7 +156,6 @@ const experiences = [
     period: "2025 — Present",
     tags: ["Altium Designer", "PCB Design", "Embedded Hardware", "Instrumentation"],
     current: true,
-    bullets: [] as string[],
   },
   {
     role: "Electrical Member",
@@ -169,11 +163,6 @@ const experiences = [
     period: "Feb 2026 — Present",
     tags: ["Altium", "STM32", "BQ76952", "Battery Management", "CAN Bus"],
     current: true,
-    bullets: [
-      "Individually designed a 25.2V high-current UAV power distribution and battery management PCB integrating four 6S LiPo packs into a unified bus supporting up to 220A",
-      "Implementing battery monitoring using the BQ76952 IC and STM32G474 MCU for pack-level voltage sensing, cell balancing, and CAN-based telemetry",
-      "Engineered busbar routing for low IR drop with hardware-level reverse polarity and short-circuit protection",
-    ],
   },
   {
     role: "Electrical Division Member",
@@ -181,11 +170,6 @@ const experiences = [
     period: "Sep 2025 — Present",
     tags: ["Teensy 4.0", "CAN", "I²C", "UART", "LTspice", "Firmware"],
     current: true,
-    bullets: [
-      "Designed, simulated, and validated a Teensy 4.0-based embedded interface board integrating CAN, I²C, and UART with analog signal conditioning and ADC front-end design for a high-noise submerged environment",
-      "Designed and simulated analog low-pass filters in LTspice to condition sensor signals before ADC sampling",
-      "Developed embedded firmware for CAN messaging, sensor acquisition (Hall-effect and temperature), and payload communication",
-    ],
   },
 ];
 
@@ -410,15 +394,6 @@ export default function Home() {
                       </div>
                       <span className="shrink-0 font-mono text-xs text-zinc-600">{exp.period}</span>
                     </div>
-                    {exp.bullets.length > 0 && (
-                      <ul className="mt-4 space-y-2">
-                        {exp.bullets.map((b, j) => (
-                          <li key={j} className="flex gap-2.5 text-sm text-zinc-400 leading-relaxed">
-                            <span className="mt-1 shrink-0 text-emerald-500/60">▸</span>{b}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                     <div className="mt-4 flex flex-wrap gap-2">
                       {exp.tags.map((t) => (
                         <span key={t} className="rounded-md border border-white/[0.07] bg-white/[0.02] px-2.5 py-1 text-xs text-zinc-400">{t}</span>
