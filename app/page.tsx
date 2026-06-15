@@ -12,6 +12,7 @@ const LABEL_TEXT    = "hello world,";
 const IM_TEXT       = "i'm";
 const NAME_TEXT     = "Arnav Gupta";
 const BADGE_TEXT    = "Hardware Design Engineering Intern @ Geoanalysis Engineering";
+const BADGE2_TEXT   = "Embedded Hardware Designer @ Zenon AeroGenesis";
 const SUBTITLE_TEXT = "Third-Year Mechatronics & Robotics Engineering Co-op · University of Alberta";
 
 const LABEL_START  = 300;  const LABEL_SPEED  = 7;
@@ -21,7 +22,9 @@ const NAME_START   = IM_START     + IM_TEXT.length       * IM_SPEED     + 80;
 const NAME_SPEED   = 24;
 const BADGE_START  = NAME_START   + NAME_TEXT.length     * NAME_SPEED   + 80;
 const BADGE_SPEED  = 6;
-const SUB_START    = BADGE_START  + BADGE_TEXT.length    * BADGE_SPEED  + 70;
+const BADGE2_START = BADGE_START  + BADGE_TEXT.length    * BADGE_SPEED  + 60;
+const BADGE2_SPEED = 6;
+const SUB_START    = BADGE2_START + BADGE2_TEXT.length   * BADGE2_SPEED + 70;
 const SUB_SPEED    = 5;
 const CONTACT_SHOW = SUB_START    + SUBTITLE_TEXT.length * SUB_SPEED    + 150;
 const INTEREST_START = CONTACT_SHOW + 250;
@@ -141,6 +144,18 @@ const skillCategories = [
 
 const experiences = [
   {
+    role: "Embedded Hardware Designer",
+    org: "Zenon AeroGenesis",
+    period: "May 2026 — Present",
+    tags: ["Altium Designer", "STM32H755", "CAN-FD", "BQ76920", "Functional Safety"],
+    current: true,
+    bullets: [
+      "Designed a 6-layer turbine control board for a jetpack in Altium Designer around a dual-core STM32H755BIT6 (Cortex-M7/M4), coordinating up to six turbines over a CAN-FD bus and integrating SPI, I²C, UART, USB-C, and SDMMC with an onboard IMU, barometer, and microSD logging",
+      "Designed an independent redundant safety controller sharing the main CAN-FD bus, monitoring controller health and autonomously taking over turbine control upon fault detection for hardware-level failover on a flight-critical system",
+      "Designed an independent battery-safety and power board using the BQ76920 AFE for autonomous 3S overvoltage, undervoltage, and overcurrent protection, operating fully independently of the main controller firmware",
+    ],
+  },
+  {
     role: "Hardware Design Engineering Intern",
     org: "Geoanalysis Engineering",
     period: "2025 — Present",
@@ -181,6 +196,7 @@ export default function Home() {
   const im       = useTypewriter(IM_TEXT,       IM_START,     IM_SPEED);
   const nameType = useTypewriter(NAME_TEXT,     NAME_START,   NAME_SPEED);
   const badge    = useTypewriter(BADGE_TEXT,    BADGE_START,  BADGE_SPEED);
+  const badge2   = useTypewriter(BADGE2_TEXT,   BADGE2_START, BADGE2_SPEED);
   const subtitle = useTypewriter(SUBTITLE_TEXT, SUB_START,    SUB_SPEED);
 
   // Contact + interests appear after hero is done
@@ -287,12 +303,18 @@ export default function Home() {
             {!nameType.done && nameType.out.length > 0 && <Cursor />}
           </h1>
 
-          {/* Badge */}
-          <div className="min-h-[2.25rem] flex items-center justify-center">
+          {/* Badges */}
+          <div className="min-h-[2.25rem] flex flex-col items-center justify-center gap-2">
             {badge.out.length > 0 && (
               <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-xs sm:text-sm text-green-400 text-center">
                 <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-400 animate-pulse" />
                 <span>{badge.out}{!badge.done && <Cursor />}</span>
+              </div>
+            )}
+            {badge2.out.length > 0 && (
+              <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-green-500/25 bg-green-500/10 px-4 py-2 text-xs sm:text-sm text-green-400 text-center">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-400 animate-pulse" />
+                <span>{badge2.out}{!badge2.done && <Cursor />}</span>
               </div>
             )}
           </div>
@@ -305,7 +327,7 @@ export default function Home() {
           {/* Bio */}
           <div className="mx-auto max-w-2xl border-l-2 border-emerald-500/50 pl-4 text-left" style={contactStyle}>
             <p className="text-base text-zinc-200 leading-relaxed">
-              I&apos;m Arnav Gupta, a Mechatronics &amp; Robotics Engineering student at the University of Alberta. I design hardware, from PCBs and power systems to embedded firmware. Currently interning at Geoanalysis Engineering and building UAV electronics for UAARG and ARVP.
+              I&apos;m Arnav Gupta, a Mechatronics &amp; Robotics Engineering student at the University of Alberta. I design hardware, from PCBs and power systems to embedded firmware. Currently interning at Geoanalysis Engineering, designing PCBs for jetpacks at Zenon AeroGenesis, and building UAV electronics for UAARG and ARVP.
             </p>
           </div>
 
